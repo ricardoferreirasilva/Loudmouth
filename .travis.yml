@@ -1,0 +1,27 @@
+os:
+  - linux
+
+addons:
+  apt:
+    packages:
+      - xvfb
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+language: node_js
+
+node_js:
+  - '7'
+
+notifications:
+  email: false
+  slack: weppcompany:ezOQXBhCeUYztIqZ2qmUxZxE
+
+script: ./travisBuild.sh
+
+cache:
+  directories:
+    - electron/node_modules

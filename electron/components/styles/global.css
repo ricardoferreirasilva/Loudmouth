@@ -1,0 +1,16 @@
+@font-face
+{
+    font-family:'Caviar dreams';
+    src:url('../../resources/fonts/CaviarDreams.ttf');
+}
+
+@font-face
+{
+    font-family:'Caviar dreams Bold';
+    src:url('../../resources/fonts/CaviarDreams_Bold.ttf');
+}
+
+body {
+  font-family: Caviar dreams Bold;
+  overflow: hidden;
+}
