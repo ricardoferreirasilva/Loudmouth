@@ -1,8 +1,5 @@
-![build status](https://travis-ci.com/LGP-FEUP/LGP-1D-lacademy-quaerere.svg?token=zM1pydzoemdsXfdVRwAv&branch=develop)
 
-# Quaerere Software
-
-Wepp Team D
+# LoudMouth
 
 ## Electron
 ### React - a javascript  library for building user interfaces
