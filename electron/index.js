@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
 
 import './node_modules/react-redux-toastr/src/styles/index.scss'
-
+require('./components/styles/global.css')
 ReactDOM.render((
     <Provider store={store}>
         <div>

@@ -1,0 +1,22 @@
+.controlBox
+{
+    background-color: #EFDD8D;
+    border-style: solid;
+    padding: 20px;
+    margin-top: 30%;
+}
+.switchBox
+{
+   
+}
+.titleBox
+{
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #F4FDAF;
+    color: #2E1E0F;
+}
+.selectorBox {
+
+}

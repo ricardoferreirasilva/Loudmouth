@@ -8,11 +8,11 @@ const history = createHistory()
 
 // Pages
 import ExampleComponent from './components/views/exampleComponent.js'
-
+import LoginComponent from './components/views/loginComponent.js'
 exports.router = (
   <ConnectedRouter history={history}>
     <div>
-        <ExampleComponent></ExampleComponent>
+        <LoginComponent></LoginComponent>
     </div>
   </ConnectedRouter>
 )

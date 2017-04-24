@@ -26,7 +26,9 @@ function initApp () {
     'minWidth': 800,
     'minHeight': 600,
     autoHideMenuBar: true,
-    frame: true
+    frame: true,
+    'node-integration': false,
+    'web-security': false
   })
 
   // and load the login page of the app.
