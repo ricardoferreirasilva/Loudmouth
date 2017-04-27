@@ -20,10 +20,31 @@ class LoginComponent extends React.Component {
             onLogin: "true",
         };
         this.setOnLogin = this.setOnLogin.bind(this)
+        this.testRequest = this.testRequest.bind(this)
+    }
+    componentDidMount(){
+        
     }
     setOnLogin(event) {
         this.setState({onLogin: event.target.value})
         console.log(this.state.onLogin);
+    }
+    testRequest()
+    {
+        var request = new XMLHttpRequest();
+            request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+                return;
+            }
+
+            if (request.status === 200) {
+                console.log('success', request.responseText);
+            } else {
+                console.warn('error');
+            }
+        };
+        request.open('GET', 'https://httpbin.org/get');
+        request.send();
     }
     render() 
     {
@@ -36,7 +57,7 @@ class LoginComponent extends React.Component {
                     <FormControl type="text" placeholder="Enter text"/>
                         <ControlLabel>Password</ControlLabel>
                     <FormControl type="password" placeholder="Enter text"/>
-                        <Button bsStyle="primary" type="submit">
+                        <Button bsStyle="primary" type="submit" onClick={this.testRequest}>
                     Submit
                     </Button>
                 </Form>)
