@@ -28,8 +28,8 @@ class LoginComponent extends React.Component {
         };
         this.setOnLogin = this.setOnLogin.bind(this)
         this.setOffLogin = this.setOffLogin.bind(this)
-        this.testRequest = this.testRequest.bind(this)
-         this.handleChange = this.handleChange.bind(this)
+        this.tryLogin = this.tryLogin.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
     componentDidMount(){
         
@@ -51,39 +51,27 @@ class LoginComponent extends React.Component {
         this.setState({onLogin: "false"})
         console.log(this.state.onLogin);
     }
-    testRequest()
-    {
-            var request = new XMLHttpRequest();
-            request.onreadystatechange = (e) => {
-            if (request.readyState !== 4) {
-                return;
-            }
-
-            if (request.status === 200) {
-                console.log('success', request.responseText);
-                console.log(this.state);
-            } else {
-                console.warn('error');
-            }
-        };
-        request.open('GET', 'https://httpbin.org/get');
-        request.send();
-    }
     tryLogin()
     {
-            var request = new XMLHttpRequest();
-            request.onreadystatechange = (e) => {
+        var loginData = 
+        {
+            "email" : this.state.loginEmail,
+            "password" : this.state.loginPassword,
+        }
+        var request = new XMLHttpRequest();
+        request.open('POST', 'http://vps301278.ovh.net:3561/login');
+        request.setRequestHeader("Content-type", "application/json");
+        request.onreadystatechange = (e) => {
             if (request.readyState !== 4) {
                 return;
             }
             if (request.status === 200) {
-                console.log(this.state);
+                console.log(request.responseText);
             } else {
                 console.warn('error');
             }
         };
-        request.open('GET', 'https://httpbin.org/get');
-        request.send();
+        request.send(JSON.stringify(loginData));
     }
     render() 
     {
@@ -98,7 +86,7 @@ class LoginComponent extends React.Component {
                     <FormControl id="loginEmail" type="text" value={this.state.loginEmail} placeholder="Enter email" onChange = {this.handleChange}/>
                     <ControlLabel>Password</ControlLabel>
                     <FormControl id="loginPassword" type="password" placeholder="Enter password" onChange = {this.handleChange}/>
-                    <Button block bsStyle="success" >Login</Button>
+                    <Button block bsStyle="success" onClick={this.tryLogin}>Login</Button>
                 </Form>
                 </div>
                 )
