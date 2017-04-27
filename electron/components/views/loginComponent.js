@@ -24,12 +24,15 @@ class LoginComponent extends React.Component {
             loginEmail : '',
             loginPassword: '',
             registerEmail : '',
+            registerFirstname: '',
+            registerLastname: '',
             registerPassword: '',
         };
-        this.setOnLogin = this.setOnLogin.bind(this)
-        this.setOffLogin = this.setOffLogin.bind(this)
-        this.tryLogin = this.tryLogin.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        this.setOnLogin = this.setOnLogin.bind(this);
+        this.setOffLogin = this.setOffLogin.bind(this);
+        this.tryLogin = this.tryLogin.bind(this);
+        this.tryRegister = this.tryRegister.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount(){
         
@@ -40,7 +43,10 @@ class LoginComponent extends React.Component {
             case "loginEmail" :this.setState({loginEmail: event.target.value});
             case "loginPassword" :this.setState({loginPassword: event.target.value});
             case "registerEmail" :this.setState({registerEmail: event.target.value});
+            case "registerFirstname" :this.setState({registerFirstname: event.target.value});
+            case "registerLastname" :this.setState({registerLastname: event.target.value});
             case "registerPassword" :this.setState({registerPassword: event.target.value});
+            
         }
     }
     setOnLogin(event) {
@@ -50,6 +56,33 @@ class LoginComponent extends React.Component {
     setOffLogin(event) {
         this.setState({onLogin: "false"})
         console.log(this.state.onLogin);
+    }
+    tryRegister()
+    {
+        var loginData = 
+        {
+            "email" : this.state.registerEmail,
+            "firstname" : this.state.registerFirstname,
+            "lastname" : this.state.registerLastname,
+            "password" : this.state.registerPassword,
+        }
+        var request = new XMLHttpRequest();
+        request.open('POST', 'http://vps301278.ovh.net:3561/register');
+        request.setRequestHeader("Content-type", "application/json");
+        request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+                return;
+            }
+            if (request.status === 200) {
+                localStorage.setItem("username", this.state.registerEmail);
+                alert("Register Sucessfull");
+                this.setState({onLogin: "true"});
+            } else {
+                alert("Register error.")
+                this.setState({onLogin: "true"});
+            }
+        };
+        request.send(JSON.stringify(loginData));
     }
     tryLogin()
     {
@@ -66,7 +99,9 @@ class LoginComponent extends React.Component {
                 return;
             }
             if (request.status === 200) {
+                localStorage.setItem("email", this.state.loginEmail);
                 console.log(request.responseText);
+                console.log(localStorage.getItem("email"));
             } else {
                 console.warn('error');
             }
@@ -96,10 +131,14 @@ class LoginComponent extends React.Component {
             <h2> Register </h2>
             <Form>
                 <ControlLabel>Email</ControlLabel>
-                <FormControl id="registerEmail" type="email" placeholder="Enter email" onChange = {this.handleChange}/>
+                <FormControl id="registerEmail" type="email" placeholder="Enter email." onChange = {this.handleChange}/>
+                <ControlLabel>First Name</ControlLabel>
+                <FormControl id="registerFirstname" type="text" placeholder="Enter your first name." onChange = {this.handleChange}/>
+                <ControlLabel>Last name</ControlLabel>
+                <FormControl id="registerLastname" type="text" placeholder="Enter your last name." onChange = {this.handleChange}/>
                 <ControlLabel>Password</ControlLabel>
                 <FormControl id="registerPassword" type="password" placeholder="Enter password" onChange = {this.handleChange}/>
-                <Button block bsStyle="success" >Register</Button>
+                <Button block bsStyle="success" onClick={this.tryRegister} >Register</Button>
             </Form>
             </div>
         )

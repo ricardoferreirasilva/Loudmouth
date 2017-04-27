@@ -13,8 +13,10 @@ exports.router = (
   <ConnectedRouter history={history}>
     <div>
         <LoginComponent></LoginComponent>
+        <Route path="/login" component={LoginComponent}/>
     </div>
   </ConnectedRouter>
 )
-
+//  <Redirect from="/" to="/createFillText" />
+//   <Route path="/landingPage" component={LandingPage}/>
 exports.history = history
