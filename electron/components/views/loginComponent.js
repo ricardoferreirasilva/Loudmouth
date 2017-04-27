@@ -2,7 +2,10 @@ import React from 'react'
 import {
     Button,
     Form,
+    Nav,
+    NavItem,
     FormGroup,
+    Glyphicon,
     FormControl,
     Col,
     HelpBlock,
@@ -18,20 +21,39 @@ class LoginComponent extends React.Component {
         super();
         this.state = {
             onLogin: "true",
+            loginEmail : '',
+            loginPassword: '',
+            registerEmail : '',
+            registerPassword: '',
         };
         this.setOnLogin = this.setOnLogin.bind(this)
+        this.setOffLogin = this.setOffLogin.bind(this)
         this.testRequest = this.testRequest.bind(this)
+         this.handleChange = this.handleChange.bind(this)
     }
     componentDidMount(){
         
     }
+    handleChange(event) {
+        switch(event.target.id)
+        {
+            case "loginEmail" :this.setState({loginEmail: event.target.value});
+            case "loginPassword" :this.setState({loginPassword: event.target.value});
+            case "registerEmail" :this.setState({registerEmail: event.target.value});
+            case "registerPassword" :this.setState({registerPassword: event.target.value});
+        }
+    }
     setOnLogin(event) {
-        this.setState({onLogin: event.target.value})
+        this.setState({onLogin: "true"})
+        console.log(this.state.onLogin);
+    }
+    setOffLogin(event) {
+        this.setState({onLogin: "false"})
         console.log(this.state.onLogin);
     }
     testRequest()
     {
-        var request = new XMLHttpRequest();
+            var request = new XMLHttpRequest();
             request.onreadystatechange = (e) => {
             if (request.readyState !== 4) {
                 return;
@@ -39,6 +61,23 @@ class LoginComponent extends React.Component {
 
             if (request.status === 200) {
                 console.log('success', request.responseText);
+                console.log(this.state);
+            } else {
+                console.warn('error');
+            }
+        };
+        request.open('GET', 'https://httpbin.org/get');
+        request.send();
+    }
+    tryLogin()
+    {
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+                return;
+            }
+            if (request.status === 200) {
+                console.log(this.state);
             } else {
                 console.warn('error');
             }
@@ -52,41 +91,44 @@ class LoginComponent extends React.Component {
         if(this.state.onLogin == "true")
         {
             choosenForm = (
+                <div>
+                <h2> Login </h2>
                 <Form>
                     <ControlLabel>Email</ControlLabel>
-                    <FormControl type="text" placeholder="Enter text"/>
-                        <ControlLabel>Password</ControlLabel>
-                    <FormControl type="password" placeholder="Enter text"/>
-                        <Button bsStyle="primary" type="submit" onClick={this.testRequest}>
-                    Submit
-                    </Button>
-                </Form>)
+                    <FormControl id="loginEmail" type="text" value={this.state.loginEmail} placeholder="Enter email" onChange = {this.handleChange}/>
+                    <ControlLabel>Password</ControlLabel>
+                    <FormControl id="loginPassword" type="password" placeholder="Enter password" onChange = {this.handleChange}/>
+                    <Button block bsStyle="success" >Login</Button>
+                </Form>
+                </div>
+                )
         }
         else choosenForm = (
+            <div>
+            <h2> Register </h2>
             <Form>
                 <ControlLabel>Email</ControlLabel>
-                <FormControl type="text" placeholder="Enter text"/>
+                <FormControl id="registerEmail" type="email" placeholder="Enter email" onChange = {this.handleChange}/>
                 <ControlLabel>Password</ControlLabel>
-                <FormControl type="password" placeholder="Enter text"/>
-                <ControlLabel>Repeat Password</ControlLabel>
-                <FormControl type="password" placeholder="Enter text"/>
-                <Button bsStyle="primary" type="submit">
-                Submit
-                </Button>
+                <FormControl id="registerPassword" type="password" placeholder="Enter password" onChange = {this.handleChange}/>
+                <Button block bsStyle="success" >Register</Button>
             </Form>
+            </div>
         )
         return (
             <div>
                 <Col md={4}></Col>
                 <Col md={4}>
                     <div className={Style.controlBox}>
+                        <Nav bsStyle="pills" >
+                            <NavItem value="true" onClick={this.setOnLogin}>Login</NavItem>
+                            <NavItem value="false" onClick={this.setOffLogin} >Register</NavItem>
+                        </Nav>
                         <div className = {Style.titleBox}>
                             <p> LOUDMOUTH </p>
                         </div>
                         {choosenForm}
                         <div className = {Style.switchBox}>
-                            <Button block bsStyle="success" value="true" onClick={this.setOnLogin}>Login</Button>
-                            <Button block bsStyle="success" value="false" onClick={this.setOnLogin} >Register</Button>
                         </div>
                     </div>
                 </Col>
