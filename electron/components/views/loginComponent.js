@@ -11,7 +11,9 @@ import {
     HelpBlock,
     ButtonGroup,
     ButtonToolbar,
-    ControlLabel
+    ControlLabel,
+    Grid, 
+    Row
 } from 'react-bootstrap'
 
 import SigninComponent from './signinComponent.js';
@@ -19,7 +21,7 @@ import RegisterComponent from './registerComponent.js';
 
 import FacebookProvider, { Login } from 'react-facebook';
 
-import Style from '../styles/login.module.css'
+import Style from '../styles/login.module.css';
 class LoginComponent extends React.Component {
     constructor(props)
     {
@@ -127,8 +129,8 @@ class LoginComponent extends React.Component {
           )
         return (
             <div>
-                <Col md={4}></Col>
-                <Col md={4}>
+                <Col md={4} xs={2}></Col>
+                <Col md={4} xs={8}>
                     <div className={Style.controlBox}>
                         <Nav bsStyle="pills" >
                             <NavItem value="true" onClick={this.setOnLogin}>Login</NavItem>
@@ -142,9 +144,8 @@ class LoginComponent extends React.Component {
                         </div>
                     </div>
                 </Col>
-                <Col md={4}></Col>
+                <Col md={4} xs={2}></Col>
             </div>
-
         )
     }
 }
