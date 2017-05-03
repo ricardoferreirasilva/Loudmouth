@@ -1,7 +1,7 @@
 # Node packages
 ################
 node_modules/
-npm-debug.log
+npm-debug.log.*
 coverage/
 release/
 dist/
