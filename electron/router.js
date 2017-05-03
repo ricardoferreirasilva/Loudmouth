@@ -9,10 +9,11 @@ const history = createHistory()
 // Pages
 import ExampleComponent from './components/views/exampleComponent.js'
 import LoginComponent from './components/views/loginComponent.js'
+import LoudmouthComponent from './components/views/loudmouthComponent.js'
 exports.router = (
   <ConnectedRouter history={history}>
     <div>
-        <LoginComponent></LoginComponent>
+        <LoudmouthComponent></LoudmouthComponent>
         <Route path="/login" component={LoginComponent}/>
     </div>
   </ConnectedRouter>
