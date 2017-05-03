@@ -13,13 +13,19 @@ import {
     ButtonToolbar,
     ControlLabel
 } from 'react-bootstrap'
+
+import SigninComponent from './signinComponent.js';
+import RegisterComponent from './registerComponent.js';
+
 import FacebookProvider, { Login } from 'react-facebook';
+
 import Style from '../styles/login.module.css'
 class LoginComponent extends React.Component {
     constructor(props)
     {
         super();
         this.state = {
+            onRegister: "true",
             onLogin: "true",
             loginEmail : '',
             loginPassword: '',
@@ -35,7 +41,7 @@ class LoginComponent extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount(){
-        
+
     }
     handleChange(event) {
         switch(event.target.id)
@@ -46,7 +52,6 @@ class LoginComponent extends React.Component {
             case "registerFirstname" :this.setState({registerFirstname: event.target.value});
             case "registerLastname" :this.setState({registerLastname: event.target.value});
             case "registerPassword" :this.setState({registerPassword: event.target.value});
-            
         }
     }
     setOnLogin(event) {
@@ -59,7 +64,7 @@ class LoginComponent extends React.Component {
     }
     tryRegister()
     {
-        var loginData = 
+        var loginData =
         {
             "email" : this.state.registerEmail,
             "firstname" : this.state.registerFirstname,
@@ -86,7 +91,7 @@ class LoginComponent extends React.Component {
     }
     tryLogin()
     {
-        var loginData = 
+        var loginData =
         {
             "email" : this.state.loginEmail,
             "password" : this.state.loginPassword,
@@ -108,40 +113,18 @@ class LoginComponent extends React.Component {
         };
         request.send(JSON.stringify(loginData));
     }
-    render() 
+    render()
     {
         let choosenForm;
         if(this.state.onLogin == "true")
         {
-            choosenForm = (
-                <div>
-                <h2> Login </h2>
-                <Form>
-                    <ControlLabel>Email</ControlLabel>
-                    <FormControl id="loginEmail" type="text" value={this.state.loginEmail} placeholder="Enter email" onChange = {this.handleChange}/>
-                    <ControlLabel>Password</ControlLabel>
-                    <FormControl id="loginPassword" type="password" placeholder="Enter password" onChange = {this.handleChange}/>
-                    <Button block bsStyle="success" onClick={this.tryLogin}>Login</Button>
-                </Form>
-                </div>
-                )
-        }
-        else choosenForm = (
-            <div>
-            <h2> Register </h2>
-            <Form>
-                <ControlLabel>Email</ControlLabel>
-                <FormControl id="registerEmail" type="email" placeholder="Enter email." onChange = {this.handleChange}/>
-                <ControlLabel>First Name</ControlLabel>
-                <FormControl id="registerFirstname" type="text" placeholder="Enter your first name." onChange = {this.handleChange}/>
-                <ControlLabel>Last name</ControlLabel>
-                <FormControl id="registerLastname" type="text" placeholder="Enter your last name." onChange = {this.handleChange}/>
-                <ControlLabel>Password</ControlLabel>
-                <FormControl id="registerPassword" type="password" placeholder="Enter password" onChange = {this.handleChange}/>
-                <Button block bsStyle="success" onClick={this.tryRegister} >Register</Button>
-            </Form>
-            </div>
-        )
+          choosenForm = (
+            <SigninComponent handleChange={this.handleChange} tryLogin={this.tryLogin}></SigninComponent>
+          )
+        } else
+          choosenForm = (
+            <RegisterComponent handleChange={this.handleChange} tryRegister={this.tryRegister}></RegisterComponent>
+          )
         return (
             <div>
                 <Col md={4}></Col>
@@ -161,7 +144,7 @@ class LoginComponent extends React.Component {
                 </Col>
                 <Col md={4}></Col>
             </div>
-            
+
         )
     }
 }
