@@ -1,37 +1,19 @@
-import React from 'react'
-import {
-    Button,
-    Form,
-    Nav,
-    NavItem,
-    FormGroup,
-    Glyphicon,
-    FormControl,
-    Col,
-    HelpBlock,
-    ButtonGroup,
-    ButtonToolbar,
-    ControlLabel,
-    Grid, 
-    Row
-} from 'react-bootstrap'
+import React from "react";
+import {Col, Nav, NavItem} from "react-bootstrap";
 
-import SigninComponent from './signinComponent.js';
-import RegisterComponent from './registerComponent.js';
+import SigninComponent from "./signinComponent.js";
+import RegisterComponent from "./registerComponent.js";
 
-import FacebookProvider, { Login } from 'react-facebook';
-
-import Style from '../styles/login.module.css';
+import Style from "../styles/login.module.css";
 class LoginComponent extends React.Component {
-    constructor(props)
-    {
+    constructor() {
         super();
         this.state = {
             onRegister: "true",
             onLogin: "true",
-            loginEmail : '',
+            loginEmail: '',
             loginPassword: '',
-            registerEmail : '',
+            registerEmail: '',
             registerFirstname: '',
             registerLastname: '',
             registerPassword: '',
@@ -42,41 +24,56 @@ class LoginComponent extends React.Component {
         this.tryRegister = this.tryRegister.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
-    componentDidMount(){
+
+    componentDidMount() {
 
     }
+
     handleChange(event) {
-        switch(event.target.id)
-        {
-            case "loginEmail" :this.setState({loginEmail: event.target.value});
-            case "loginPassword" :this.setState({loginPassword: event.target.value});
-            case "registerEmail" :this.setState({registerEmail: event.target.value});
-            case "registerFirstname" :this.setState({registerFirstname: event.target.value});
-            case "registerLastname" :this.setState({registerLastname: event.target.value});
-            case "registerPassword" :this.setState({registerPassword: event.target.value});
+        switch (event.target.id) {
+            case "loginEmail" :
+                this.setState({loginEmail: event.target.value});
+                break;
+            case "loginPassword" :
+                this.setState({loginPassword: event.target.value});
+                break;
+            case "registerEmail" :
+                this.setState({registerEmail: event.target.value});
+                break;
+            case "registerFirstname" :
+                this.setState({registerFirstname: event.target.value});
+                break;
+            case "registerLastname" :
+                this.setState({registerLastname: event.target.value});
+                break;
+            case "registerPassword" :
+                this.setState({registerPassword: event.target.value});
+                break;
         }
     }
-    setOnLogin(event) {
-        this.setState({onLogin: "true"})
+
+    setOnLogin() {
+        this.setState({onLogin: "true"});
         console.log(this.state.onLogin);
     }
-    setOffLogin(event) {
-        this.setState({onLogin: "false"})
+
+    setOffLogin() {
+        this.setState({onLogin: "false"});
         console.log(this.state.onLogin);
     }
-    tryRegister()
-    {
+
+    tryRegister() {
         var loginData =
-        {
-            "email" : this.state.registerEmail,
-            "firstname" : this.state.registerFirstname,
-            "lastname" : this.state.registerLastname,
-            "password" : this.state.registerPassword,
-        }
+            {
+                "email": this.state.registerEmail,
+                "firstname": this.state.registerFirstname,
+                "lastname": this.state.registerLastname,
+                "password": this.state.registerPassword,
+            };
         var request = new XMLHttpRequest();
         request.open('POST', 'http://vps301278.ovh.net:3561/register');
         request.setRequestHeader("Content-type", "application/json");
-        request.onreadystatechange = (e) => {
+        request.onreadystatechange = () => {
             if (request.readyState !== 4) {
                 return;
             }
@@ -85,23 +82,23 @@ class LoginComponent extends React.Component {
                 alert("Register Sucessfull");
                 this.setState({onLogin: "true"});
             } else {
-                alert("Register error.")
+                alert("Register error.");
                 this.setState({onLogin: "true"});
             }
         };
         request.send(JSON.stringify(loginData));
     }
-    tryLogin()
-    {
+
+    tryLogin() {
         var loginData =
-        {
-            "email" : this.state.loginEmail,
-            "password" : this.state.loginPassword,
-        }
+            {
+                "email": this.state.loginEmail,
+                "password": this.state.loginPassword,
+            };
         var request = new XMLHttpRequest();
         request.open('POST', 'http://vps301278.ovh.net:3561/login');
         request.setRequestHeader("Content-type", "application/json");
-        request.onreadystatechange = (e) => {
+        request.onreadystatechange = () => {
             if (request.readyState !== 4) {
                 return;
             }
@@ -115,36 +112,35 @@ class LoginComponent extends React.Component {
         };
         request.send(JSON.stringify(loginData));
     }
-    render()
-    {
+
+    render() {
         let choosenForm;
-        if(this.state.onLogin == "true")
-        {
-          choosenForm = (
-            <SigninComponent handleChange={this.handleChange} tryLogin={this.tryLogin}></SigninComponent>
-          )
+        if (this.state.onLogin === "true") {
+            choosenForm = (
+                <SigninComponent handleChange={this.handleChange} tryLogin={this.tryLogin}/>
+            )
         } else
-          choosenForm = (
-            <RegisterComponent handleChange={this.handleChange} tryRegister={this.tryRegister}></RegisterComponent>
-          )
+            choosenForm = (
+                <RegisterComponent handleChange={this.handleChange} tryRegister={this.tryRegister}/>
+            );
         return (
             <div>
-                <Col md={4} xs={2}></Col>
+                <Col md={4} xs={2}/>
                 <Col md={4} xs={8}>
                     <div className={Style.controlBox}>
-                        <Nav bsStyle="pills" >
+                        <Nav bsStyle="pills">
                             <NavItem value="true" onClick={this.setOnLogin}>Login</NavItem>
-                            <NavItem value="false" onClick={this.setOffLogin} >Register</NavItem>
+                            <NavItem value="false" onClick={this.setOffLogin}>Register</NavItem>
                         </Nav>
-                        <div className = {Style.titleBox}>
+                        <div className={Style.titleBox}>
                             <p> LOUDMOUTH </p>
                         </div>
                         {choosenForm}
-                        <div className = {Style.switchBox}>
+                        <div className={Style.switchBox}>
                         </div>
                     </div>
                 </Col>
-                <Col md={4} xs={2}></Col>
+                <Col md={4} xs={2}/>
             </div>
         )
     }
