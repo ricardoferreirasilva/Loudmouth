@@ -6,7 +6,7 @@ import RegisterComponent from "./registerComponent.js";
 
 import Style from "../styles/login.module.css";
 class LoginComponent extends React.Component {
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
             onRegister: "true",
@@ -104,8 +104,11 @@ class LoginComponent extends React.Component {
             }
             if (request.status === 200) {
                 localStorage.setItem("email", this.state.loginEmail);
-                console.log(request.responseText);
-                console.log(localStorage.getItem("email"));
+                var res = JSON.parse(request.responseText);
+                localStorage.setItem("token", res.token);
+                //console.log(localStorage.getItem("email"));
+                alert("Login Sucessfull. Token: "+localStorage.getItem("token"));
+                this.props.loadComponent();
             } else {
                 console.warn('error');
             }

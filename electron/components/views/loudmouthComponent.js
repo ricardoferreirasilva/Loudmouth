@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap'
 
 import LoginComponent from './loginComponent.js';
+import ChannelsComponent from './channels/channelsComponent.js';
 class LoudmouthComponent extends React.Component {
     constructor(props)
     {
@@ -21,17 +22,19 @@ class LoudmouthComponent extends React.Component {
         this.state = {
             activeComponent : 1,
         }
+        this.loadComponent = this.loadComponent.bind(this);
     }
     loadComponent()
     {
-        var i = 1;
-        this.setState({activeComponent: i});
+        console.log("Changing component.");
+        this.setState({activeComponent: 2});
     }
     render() {
         let activeComponent;
         switch(this.state.activeComponent)
         {
-            case 1: activeComponent = (<LoginComponent></LoginComponent>);
+            case 1: activeComponent = (<LoginComponent loadComponent = {this.loadComponent}></LoginComponent>);
+            case 2: activeComponent = (<ChannelsComponent loadComponent = {this.loadComponent}></ChannelsComponent>);
         }
         return (
             <div>
