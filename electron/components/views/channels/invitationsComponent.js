@@ -14,6 +14,9 @@ class InvitationsComponent extends React.Component {
   {
     super();
   }
+  componentDidMount() {
+      console.log("invites");
+  }
   render() {
     return (
       <div>

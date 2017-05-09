@@ -108,7 +108,7 @@ class LoginComponent extends React.Component {
                 localStorage.setItem("token", res.token);
                 //console.log(localStorage.getItem("email"));
                 alert("Login Sucessfull. Token: "+localStorage.getItem("token"));
-                this.props.loadComponent();
+                this.props.loadComponent(2);
             } else {
                 console.warn('error');
             }

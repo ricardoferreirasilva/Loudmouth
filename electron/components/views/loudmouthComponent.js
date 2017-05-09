@@ -23,22 +23,27 @@ class LoudmouthComponent extends React.Component {
             activeComponent : 1,
         }
         this.loadComponent = this.loadComponent.bind(this);
+        this.getComponent = this.getComponent.bind(this);
     }
-    loadComponent()
+    loadComponent(i)
     {
         console.log("Changing component.");
-        this.setState({activeComponent: 2});
+        this.setState({activeComponent: i});
     }
-    render() {
-        let activeComponent;
+    getComponent()
+    {
+        console.log(this.state.activeComponent);
         switch(this.state.activeComponent)
         {
-            case 1: activeComponent = (<LoginComponent loadComponent = {this.loadComponent}></LoginComponent>);
-            case 2: activeComponent = (<ChannelsComponent loadComponent = {this.loadComponent}></ChannelsComponent>);
+            case 1: return (<LoginComponent loadComponent = {this.loadComponent}></LoginComponent>);
+            case 2: return (<ChannelsComponent loadComponent = {this.loadComponent}></ChannelsComponent>);
+            default: return (<LoginComponent loadComponent = {this.loadComponent}></LoginComponent>);
         }
+    }
+    render() {
         return (
             <div>
-                {activeComponent}
+                {this.getComponent()}
             </div>
         )
     }

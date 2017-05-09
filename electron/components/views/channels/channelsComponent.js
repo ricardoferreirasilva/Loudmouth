@@ -27,6 +27,11 @@ class ExampleComponent extends React.Component {
         };
         this.showMyChannels = this.showMyChannels.bind(this);
         this.showInvitations = this.showInvitations.bind(this);
+        this.logout = this.logout.bind(this);
+    }
+    logout()
+    {
+        this.props.loadComponent(1);
     }
     showMyChannels(event) {
         this.setState({currMenu: "MyChannels", activeKey: 1});
@@ -55,6 +60,8 @@ class ExampleComponent extends React.Component {
                     <Nav bsStyle="pills" activeKey={this.state.activeKey}>
                         <NavItem eventKey={1} value="true" onClick={this.showMyChannels}>My Channels</NavItem>
                         <NavItem eventKey={2} value="false" onClick={this.showInvitations} >Invitations</NavItem>
+                        <NavItem eventKey={3} onClick={this.logout}>Logout</NavItem>
+                        
                     </Nav>
                     {choosenMenu}
                 </Col>
