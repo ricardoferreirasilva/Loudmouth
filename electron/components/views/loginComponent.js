@@ -91,10 +91,10 @@ class LoginComponent extends React.Component {
 
     tryLogin() {
         var loginData =
-            {
+        {
                 "email": this.state.loginEmail,
                 "password": this.state.loginPassword,
-            };
+        };
         var request = new XMLHttpRequest();
         request.open('POST', 'http://vps301278.ovh.net:3561/login');
         request.setRequestHeader("Content-type", "application/json");
