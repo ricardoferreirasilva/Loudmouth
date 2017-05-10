@@ -1,0 +1,19 @@
+{
+  "name": "loudmouth",
+  "version": "0.1.0",
+  "description": "Server for the loudmouth application. SDIS@FEUP",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ricardo Ferreira da Silva",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "crypto": "0.0.3",
+    "express": "^4.15.2",
+    "mysql": "^2.13.0",
+    "password-hash": "^1.2.2",
+    "rand-token": "^0.3.0"
+  }
+}
