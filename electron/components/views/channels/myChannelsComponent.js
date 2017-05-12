@@ -9,11 +9,13 @@ import {
   ListGroupItem
 } from 'react-bootstrap'
 
+let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
+
 class MyChannelsComponent extends React.Component {
   constructor(props)
   {
       super();
-      this.state = 
+      this.state =
       {
           chats: []
       }
@@ -30,7 +32,7 @@ class MyChannelsComponent extends React.Component {
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', 'http://vps301278.ovh.net:3561/getChats');
+      request.open('POST', BASE_URL + 'getChats');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {
@@ -46,7 +48,7 @@ class MyChannelsComponent extends React.Component {
       };
       request.send(JSON.stringify(data));
   }
-  drawChats() 
+  drawChats()
   {
     var listChats = this.state.chats.map((chat) =>
         <ListGroupItem header={chat.chat_name} key={chat.id}>

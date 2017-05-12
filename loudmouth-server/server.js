@@ -6,10 +6,16 @@ var randtoken = require('rand-token');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '*****', //your mysql password here
+  password : 'admin', //your mysql password here
   database : 'loudmouth'
 });
 var passwordHash = require('password-hash');
+
+// server dont stop when internal server error occur.
+process.on('uncaughtException', function(err) {
+      console.log(err);
+});
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.listen(3561, function () {
@@ -89,6 +95,7 @@ app.post('/login', function (req, res) {
     });
 });
 app.post('/getInvites', function (req, res) {
+    console.log("get invites request.");
     var tk = req.body.token;
     var inviteeID;
     connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields)
@@ -147,6 +154,7 @@ app.post('/acceptInvite', function (req, res) {
     });
 });
 app.post('/getChats', function (req, res) {
+  console.log("get chats request.");
     var tk = req.body.token;
     connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields)
     {

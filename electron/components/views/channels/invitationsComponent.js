@@ -9,11 +9,13 @@ import {
   ListGroupItem
 } from 'react-bootstrap'
 
+let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
+
 class InvitationsComponent extends React.Component {
   constructor(props)
   {
     super();
-    this.state = 
+    this.state =
     {
         invites: []
     }
@@ -29,7 +31,7 @@ class InvitationsComponent extends React.Component {
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', 'http://vps301278.ovh.net:3561/getInvites');
+      request.open('POST', BASE_URL + 'getInvites');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {
@@ -54,7 +56,7 @@ class InvitationsComponent extends React.Component {
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', 'http://vps301278.ovh.net:3561/rejectInvite');
+      request.open('POST', BASE_URL + 'rejectInvite');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {
@@ -63,7 +65,7 @@ class InvitationsComponent extends React.Component {
           if (request.status === 200) {
               //var res = JSON.parse(request.responseText);
               this.getInvites();
-          } 
+          }
           else {console.warn('error');}
       };
       request.send(JSON.stringify(data));
@@ -77,7 +79,7 @@ acceptInvite(event)
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', 'http://vps301278.ovh.net:3561/acceptInvite');
+      request.open('POST', BASE_URL + 'acceptInvite');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {
@@ -85,7 +87,7 @@ acceptInvite(event)
           }
           if (request.status === 200) {
               this.getInvites();
-          } 
+          }
           else {console.warn('error');}
       };
       request.send(JSON.stringify(data));
@@ -93,7 +95,7 @@ acceptInvite(event)
   componentDidMount() {
       this.getInvites();
   }
-  drawInvites() 
+  drawInvites()
   {
     var listInvites = this.state.invites.map((invite) =>
         <ListGroupItem header={invite.chat_name} key={invite.id}>
@@ -108,7 +110,7 @@ acceptInvite(event)
       <div>
         <h1>Invitations</h1>
         <ListGroup>
-            {this.drawInvites()}  
+            {this.drawInvites()}
         </ListGroup>
       </div>
     )

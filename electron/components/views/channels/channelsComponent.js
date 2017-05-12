@@ -16,6 +16,9 @@ import Style from '../../styles/login.module.css';
 
 import MyChannelsComponent from './myChannelsComponent.js';
 import InvitationsComponent from './invitationsComponent.js';
+import CreateChannelComponent from './createChannelComponent.js';
+
+let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
 
 class ExampleComponent extends React.Component {
     constructor(props)
@@ -28,10 +31,13 @@ class ExampleComponent extends React.Component {
         this.showMyChannels = this.showMyChannels.bind(this);
         this.showInvitations = this.showInvitations.bind(this);
         this.logout = this.logout.bind(this);
+        this.createChannel = this.createChannel.bind(this);
     }
-    logout()
-    {
+    logout() {
         this.props.loadComponent(1);
+    }
+    createChannel() {
+        this.setState({currMenu: "CreateChannel", activeKey: 4});
     }
     showMyChannels(event) {
         this.setState({currMenu: "MyChannels", activeKey: 1});
@@ -43,13 +49,19 @@ class ExampleComponent extends React.Component {
         let choosenMenu;
         if(this.state.currMenu == "MyChannels")
         {
-          choosenMenu = (
+            choosenMenu = (
             <MyChannelsComponent></MyChannelsComponent>
-          )
-        } else if (this.state.currMenu == "Invitations")
-          choosenMenu = (
+            )
+        } else if (this.state.currMenu == "Invitations") {
+            choosenMenu = (
             <InvitationsComponent></InvitationsComponent>
-          )
+            )
+        }
+        else if (this.state.currMenu == "CreateChannel") {
+            choosenMenu = (
+            <CreateChannelComponent></CreateChannelComponent>
+            )
+        }
         return (
             <div>
                 <Col md={3}></Col>
@@ -61,7 +73,7 @@ class ExampleComponent extends React.Component {
                         <NavItem eventKey={1} value="true" onClick={this.showMyChannels}>My Channels</NavItem>
                         <NavItem eventKey={2} value="false" onClick={this.showInvitations} >Invitations</NavItem>
                         <NavItem eventKey={3} onClick={this.logout}>Logout</NavItem>
-                        
+                        <NavItem eventKey={4} onClick={this.createChannel}>New Channel</NavItem>
                     </Nav>
                     {choosenMenu}
                 </Col>

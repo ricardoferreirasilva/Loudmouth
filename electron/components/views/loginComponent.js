@@ -5,6 +5,10 @@ import SigninComponent from "./signinComponent.js";
 import RegisterComponent from "./registerComponent.js";
 
 import Style from "../styles/login.module.css";
+
+// login estava com https.
+let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
+
 class LoginComponent extends React.Component {
     constructor(props) {
         super();
@@ -71,7 +75,7 @@ class LoginComponent extends React.Component {
                 "password": this.state.registerPassword,
             };
         var request = new XMLHttpRequest();
-        request.open('POST', 'http://vps301278.ovh.net:3561/register');
+        request.open('POST', BASE_URL + 'register');
         request.setRequestHeader("Content-type", "application/json");
         request.onreadystatechange = () => {
             if (request.readyState !== 4) {
@@ -96,7 +100,7 @@ class LoginComponent extends React.Component {
                 "password": this.state.loginPassword,
         };
         var request = new XMLHttpRequest();
-        request.open('POST', 'https://vps301278.ovh.net:3562/login');
+        request.open('POST', BASE_URL + 'login');
         request.setRequestHeader("Content-type", "application/json");
         request.onreadystatechange = () => {
             if (request.readyState !== 4) {
