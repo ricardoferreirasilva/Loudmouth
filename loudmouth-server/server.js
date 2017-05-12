@@ -13,7 +13,7 @@ var passwordHash = require('password-hash');
 
 // server dont stop when internal server error occur.
 process.on('uncaughtException', function(err) {
-      console.log(err);
+    console.log(err);
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -155,22 +155,68 @@ app.post('/acceptInvite', function (req, res) {
 });
 app.post('/getChats', function (req, res) {
   console.log("get chats request.");
-    var tk = req.body.token;
-    connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields)
-    {
-          if (!error && results.length > 0){
-                var userID = results[0].id;
-                console.log(userID);
-                var query = connection.query('SELECT chatroom.chat_name,chatroom.id FROM userchat,chatroom WHERE userchat.user = ? AND userchat.chat_room = chatroom.id', [userID], function (error, results, fields) {
-                if (error){
-                    res.sendStatus(500);
-                    throw error;
-                }
-                else {
-                    res.send(results);
-                }
-              });
+  var tk = req.body.token;
+  connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields)
+  {
+        if (!error && results.length > 0){
+              var userID = results[0].id;
+              console.log(userID);
+              var query = connection.query('SELECT chatroom.chat_name,chatroom.id FROM userchat,chatroom WHERE userchat.user = ? AND userchat.chat_room = chatroom.id', [userID], function (error, results, fields) {
+              if (error){
+                  res.sendStatus(500);
+                  throw error;
+              }
+              else {
+                  res.send(results);
+                  console.log(results);
+              }
+            });
+        }
+        else console.log('Error while performing Query.');
+  });
+});
+app.post('/createChannel', function (req, res) {
+  console.log("create channel request.");
+
+  var tk = req.body.token;
+  var channelName = req.body.channelName;
+  var userID;
+  var chatroomID;
+
+  connection.query('SELECT * from user where token = ?',[tk],
+  function(error, results, fields) {
+    if (!(!error && results.length > 0)) {
+      res.sendStatus(500);
+      throw error;
+    }
+
+    userID = results[0].id;
+    connection.query('INSERT INTO chatroom (creator_id,chat_name) VALUES (?,?)',[userID, channelName],
+    function (error, results, fields) {
+      if (error){
+        res.sendStatus(500);
+        throw error;
+      }
+
+      connection.query('SELECT * FROM chatroom WHERE creator_id = ? AND chat_name = ?', [userID, channelName],
+      function (error, results, fields) {
+          if (error) {
+            res.sendStatus(500);
+            throw error;
           }
-          else console.log('Error while performing Query.');
+
+          chatroomID = results[0].id;
+          connection.query('INSERT INTO userchat (chat_room,user) VALUES (?,?)', [chatroomID, userID],
+          function (error, results, fields) {
+              if (error) {
+                res.sendStatus(500);
+                throw error;
+              }
+
+              res.sendStatus(200);
+              console.log("Channel created.");
+          });
+      });
     });
+  });
 });

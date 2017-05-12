@@ -28,6 +28,7 @@ class CreateChannelComponent extends React.Component {
     var channelData =
         {
             "channelName": this.state.channelName,
+            "token": localStorage.getItem("token"),
         };
     var request = new XMLHttpRequest();
     request.open('POST', BASE_URL + 'createChannel');

@@ -72,8 +72,8 @@ class ExampleComponent extends React.Component {
                     <Nav bsStyle="pills" activeKey={this.state.activeKey}>
                         <NavItem eventKey={1} value="true" onClick={this.showMyChannels}>My Channels</NavItem>
                         <NavItem eventKey={2} value="false" onClick={this.showInvitations} >Invitations</NavItem>
-                        <NavItem eventKey={3} onClick={this.logout}>Logout</NavItem>
                         <NavItem eventKey={4} onClick={this.createChannel}>New Channel</NavItem>
+                        <NavItem eventKey={3} onClick={this.logout}>Logout</NavItem>
                     </Nav>
                     {choosenMenu}
                 </Col>
