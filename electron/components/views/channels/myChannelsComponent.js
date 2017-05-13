@@ -11,7 +11,7 @@ import {
 
 //let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
 let BASE_URL = "https://vps301278.ovh.net:3562/";
-class MyChannelsComponent extends React.Component {
+class elsComponent extends React.Component {
   constructor(props)
   {
       super();
@@ -20,9 +20,16 @@ class MyChannelsComponent extends React.Component {
           chats: []
       }
       this.getChats = this.getChats.bind(this);
+       this.selectChat = this.selectChat.bind(this);
+
   }
   componentDidMount() {
       this.getChats();
+  }
+  selectChat(event)
+  {
+    var chatname = event.target.value;
+    this.props.loadChat(chatname);
   }
   getChats()
   {
@@ -52,7 +59,7 @@ class MyChannelsComponent extends React.Component {
   {
     var listChats = this.state.chats.map((chat) =>
         <ListGroupItem header={chat.chat_name} key={chat.id}>
-            <Button bsStyle="success" value={chat.id}>Join</Button>
+            <Button bsStyle="success" value={chat.chat_name}  onClick={this.selectChat}>Join</Button>
         </ListGroupItem>);
     return (<ListGroup>{listChats}</ListGroup>);
  }
@@ -67,4 +74,4 @@ class MyChannelsComponent extends React.Component {
     )
   }
 }
-export default MyChannelsComponent
+export default elsComponent

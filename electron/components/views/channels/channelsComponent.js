@@ -50,7 +50,7 @@ class ExampleComponent extends React.Component {
         if(this.state.currMenu == "MyChannels")
         {
             choosenMenu = (
-            <MyChannelsComponent></MyChannelsComponent>
+            <MyChannelsComponent loadChat = {this.props.loadChat}></MyChannelsComponent>
             )
         } else if (this.state.currMenu == "Invitations") {
             choosenMenu = (
