@@ -7,8 +7,8 @@ import RegisterComponent from "./registerComponent.js";
 import Style from "../styles/login.module.css";
 
 // login estava com https.
-let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
-
+//let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
+let BASE_URL = "https://vps301278.ovh.net:3562/";
 class LoginComponent extends React.Component {
     constructor(props) {
         super();
