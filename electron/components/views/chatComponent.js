@@ -18,12 +18,13 @@ class ChatComponent extends React.Component {
         super();
          this.state = {
             message: '',
-            messages: ['a'],
+            messages: [],
         };
         this.sendMessage = this.sendMessage.bind(this);
         this.drawMessages = this.drawMessages.bind(this);
         this.handleMessageChange = this.handleMessageChange.bind(this);
         this.handleMessages = this.handleMessages.bind(this);
+        this.exit = this.exit.bind(this);
 
     }
     componentDidMount()
@@ -48,6 +49,11 @@ class ChatComponent extends React.Component {
         //alert(this.state.message);
         this.socket.emit('message', this.props.chatName,this.state.message,);
     }
+    exit()
+    {
+        this.props.loadComponent(2);
+    }
+
     drawMessages()
     {
         var listMessages = this.state.messages.map((msg) =>
@@ -82,6 +88,7 @@ class ChatComponent extends React.Component {
                                 <FormControl type="text" placeholder="" onChange={this.handleMessageChange}/>
                                 {' '}
                                 <Button bsStyle="success" onClick={this.sendMessage}>Send</Button>
+                                <Button bsStyle="success" onClick={this.exit}>Exit</Button>
                             </Form>
                         <div className={Style.switchBox}>
                         </div>
