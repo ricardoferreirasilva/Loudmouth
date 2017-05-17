@@ -18,8 +18,8 @@ import MyChannelsComponent from './myChannelsComponent.js';
 import InvitationsComponent from './invitationsComponent.js';
 import CreateChannelComponent from './createChannelComponent.js';
 
-let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
-
+//let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
+let BASE_URL = "https://vps301278.ovh.net:3562/";
 class ExampleComponent extends React.Component {
     constructor(props)
     {
@@ -50,7 +50,7 @@ class ExampleComponent extends React.Component {
         if(this.state.currMenu == "MyChannels")
         {
             choosenMenu = (
-            <MyChannelsComponent></MyChannelsComponent>
+            <MyChannelsComponent loadChat = {this.props.loadChat}></MyChannelsComponent>
             )
         } else if (this.state.currMenu == "Invitations") {
             choosenMenu = (
@@ -59,7 +59,7 @@ class ExampleComponent extends React.Component {
         }
         else if (this.state.currMenu == "CreateChannel") {
             choosenMenu = (
-            <CreateChannelComponent></CreateChannelComponent>
+            <CreateChannelComponent showMyChannels = {this.showMyChannels}></CreateChannelComponent>
             )
         }
         return (
