@@ -28,7 +28,7 @@ class elsComponent extends React.Component {
             "token": localStorage.getItem("token"),
         };
         let request = new XMLHttpRequest();
-        request.open('POST', BASE_URL + 'getChats');
+        request.open('POST', this.props.serverURL + 'getChats');
         request.setRequestHeader("Content-type", "application/json");
         request.onreadystatechange = () => {
             if (request.readyState !== 4) {
@@ -58,7 +58,7 @@ class elsComponent extends React.Component {
             "chatToLeave": event.target.value
         };
         let request = new XMLHttpRequest();
-        request.open('POST', BASE_URL + 'leaveChat');
+        request.open('POST', this.props.serverURL + 'leaveChat');
         request.setRequestHeader("Content-type", "application/json");
         request.onreadystatechange = () => {
             if (request.readyState !== 4) {
@@ -95,6 +95,5 @@ class elsComponent extends React.Component {
             </div>
         )
     }
->>>>>>> master
 }
 export default elsComponent
