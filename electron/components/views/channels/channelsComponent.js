@@ -67,7 +67,7 @@ class ExampleComponent extends React.Component {
                 <Col md={3}></Col>
                 <Col md={6}>
                     <div className = {Style.titleBox}>
-                            <p> LOUDMOUTH  </p>
+                            <p> LOUDMOUTH </p>
                     </div>
                     <Nav bsStyle="pills" activeKey={this.state.activeKey}>
                         <NavItem eventKey={1} value="true" onClick={this.showMyChannels}>My Channels</NavItem>

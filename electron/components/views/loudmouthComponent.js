@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap'
 
 import LoginComponent from './loginComponent.js';
-import ChatComponent from './chatComponent.js';
+import ChatComponent from './chat/chatComponent.js';
 import ChannelsComponent from './channels/channelsComponent.js';
 class LoudmouthComponent extends React.Component {
     constructor(props)
