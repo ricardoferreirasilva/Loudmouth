@@ -18,8 +18,6 @@ import MyChannelsComponent from './myChannelsComponent.js';
 import InvitationsComponent from './invitationsComponent.js';
 import CreateChannelComponent from './createChannelComponent.js';
 
-//let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
-let BASE_URL = "https://vps301278.ovh.net:3562/";
 class ExampleComponent extends React.Component {
     constructor(props)
     {
@@ -50,16 +48,16 @@ class ExampleComponent extends React.Component {
         if(this.state.currMenu == "MyChannels")
         {
             choosenMenu = (
-            <MyChannelsComponent loadChat = {this.props.loadChat}></MyChannelsComponent>
+            <MyChannelsComponent loadChat = {this.props.loadChat} serverURL = {this.props.serverURL}></MyChannelsComponent>
             )
         } else if (this.state.currMenu == "Invitations") {
             choosenMenu = (
-            <InvitationsComponent></InvitationsComponent>
+            <InvitationsComponent serverURL = {this.props.serverURL}></InvitationsComponent>
             )
         }
         else if (this.state.currMenu == "CreateChannel") {
             choosenMenu = (
-            <CreateChannelComponent showMyChannels = {this.showMyChannels}></CreateChannelComponent>
+            <CreateChannelComponent showMyChannels = {this.showMyChannels} serverURL = {this.props.serverURL}></CreateChannelComponent>
             )
         }
         return (
@@ -67,7 +65,7 @@ class ExampleComponent extends React.Component {
                 <Col md={3}></Col>
                 <Col md={6}>
                     <div className = {Style.titleBox}>
-                            <p> LOUDMOUTH  </p>
+                            <p> LOUDMOUTH </p>
                     </div>
                     <Nav bsStyle="pills" activeKey={this.state.activeKey}>
                         <NavItem eventKey={1} value="true" onClick={this.showMyChannels}>My Channels</NavItem>

@@ -1,8 +1,6 @@
 import React from "react";
 import {Button, ListGroup, ListGroupItem} from "react-bootstrap";
 
-//let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
-let BASE_URL = "https://vps301278.ovh.net:3562/";
 class elsComponent extends React.Component {
     constructor() {
         super();
@@ -13,7 +11,6 @@ class elsComponent extends React.Component {
         this.selectChat = this.selectChat.bind(this);
         this.inviteToChat = this.inviteToChat.bind(this);
         this.leaveChat = this.leaveChat.bind(this);
-
     }
 
     componentDidMount() {
@@ -47,7 +44,6 @@ class elsComponent extends React.Component {
         };
         request.send(JSON.stringify(data));
     }
-
     inviteToChat(event) {//TODO: Apenas tem um botão. Vai ter que ter uma caixa de texto para escrever o nome do user a convidar
         const data = {
             "token": localStorage.getItem("token"),
@@ -55,7 +51,6 @@ class elsComponent extends React.Component {
             "userToInvite": "user to invite"
         };
     }
-
     leaveChat(event) {
         console.log("Leaving chat.");
         const data = {
@@ -100,5 +95,6 @@ class elsComponent extends React.Component {
             </div>
         )
     }
+>>>>>>> master
 }
 export default elsComponent

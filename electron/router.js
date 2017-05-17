@@ -10,6 +10,7 @@ const history = createHistory()
 import ChannelsComponent from './components/views/channels/channelsComponent.js'
 import LoginComponent from './components/views/loginComponent.js'
 import LoudmouthComponent from './components/views/loudmouthComponent.js'
+
 exports.router = (
   <ConnectedRouter history={history}>
     <div>

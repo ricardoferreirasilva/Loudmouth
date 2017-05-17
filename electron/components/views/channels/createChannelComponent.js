@@ -9,8 +9,6 @@ import {
   ListGroupItem
 } from 'react-bootstrap'
 
-//let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
-let BASE_URL = "https://vps301278.ovh.net:3562/";
 class CreateChannelComponent extends React.Component {
   constructor(props)
   {
@@ -21,17 +19,19 @@ class CreateChannelComponent extends React.Component {
       this.tryCreateChannel = this.tryCreateChannel.bind(this);
       this.handleEmailChange = this.handleEmailChange.bind(this);
   }
-  handleEmailChange(e) {
+  handleEmailChange(e)
+  {
    this.setState({channelName: e.target.value});
   }
-  tryCreateChannel() {
+  tryCreateChannel()
+  {
     var channelData =
         {
             "channelName": this.state.channelName,
             "token": localStorage.getItem("token"),
         };
     var request = new XMLHttpRequest();
-    request.open('POST', BASE_URL + 'createChannel');
+    request.open('POST', this.props.serverURL + 'createChannel');
     request.setRequestHeader("Content-type", "application/json");
     request.onreadystatechange = () => {
         if (request.readyState !== 4) {

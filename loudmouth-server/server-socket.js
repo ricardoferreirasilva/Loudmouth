@@ -9,7 +9,7 @@ server.listen(3563, () => console.log('Loudmouth sockets *:3563'));
 
 // The event will be called when a client is connected.
 websocket.on('connection', (socket) => {
-  //console.log('A client just joined on', socket.id);
+  console.log('A client just joined on', socket.id);
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
@@ -17,7 +17,7 @@ websocket.on('connection', (socket) => {
         console.log("A user has joined: " + room);
         socket.join(room);
   });
- socket.on('message', function (room,data) {
+  socket.on('message', function (room,data) {
      console.log(room + " " + data);
      websocket.to(room).emit('message',data);
   });
