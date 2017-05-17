@@ -175,6 +175,11 @@ app.post('/getChats', function (req, res) {
         else console.log('Error while performing Query.');
   });
 });
+
+app.post('/leaveChat', function (req, res) {
+    //TODO: funcao que sai do chat.
+});
+
 app.post('/createChannel', function (req, res) {
   console.log("create channel request.");
 
