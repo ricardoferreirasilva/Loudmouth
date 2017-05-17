@@ -21,10 +21,12 @@ class CreateChannelComponent extends React.Component {
       this.tryCreateChannel = this.tryCreateChannel.bind(this);
       this.handleEmailChange = this.handleEmailChange.bind(this);
   }
-  handleEmailChange(e) {
+  handleEmailChange(e)
+  {
    this.setState({channelName: e.target.value});
   }
-  tryCreateChannel() {
+  tryCreateChannel()
+  {
     var channelData =
         {
             "channelName": this.state.channelName,

@@ -80,7 +80,7 @@ class ChatComponent extends React.Component {
             )
         } else if (this.state.currMenu == "Invite") {
             choosenMenu = (
-            <InviteComponent></InviteComponent>
+            <InviteComponent chatName = {this.props.chatName} showChat = {this.showChat}></InviteComponent>
             )
         }
         return (

@@ -13,18 +13,47 @@ import ReactScrollbar from 'react-scrollbar-js';
 import Style from "../../styles/login.module.css";
 import io from 'socket.io-client';
 
+let BASE_URL = "https://vps301278.ovh.net:3562/";
+
 class InviteComponent extends React.Component {
     constructor(props)
     {
         super();
         this.state = {
-
+          emailOfPerson: '',
         };
         this.invite = this.invite.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+    }
+    handleEmailChange(e)
+    {
+       console.log('email change!!!');
+       this.setState({emailOfPerson: e.target.value});
     }
     invite()
     {
       console.log('send invite!!!!');
+      var inviteData =
+          {
+              "chatName": this.props.chatName,
+              "token": localStorage.getItem("token"),
+              "email" : this.state.emailOfPerson,
+          };
+      var request = new XMLHttpRequest();
+      request.open('POST', BASE_URL + 'createInvitation');
+      request.setRequestHeader("Content-type", "application/json");
+      request.onreadystatechange = () => {
+          if (request.readyState !== 4) {
+              return;
+          }
+          if (request.status === 200) {
+              alert("Invitation created sucessfully.");
+              this.props.showChat();
+          } else {
+              alert("Channel creation error.");
+          }
+      };
+      request.send(JSON.stringify(channelData));
     }
     render() {
         const myScrollbar = {
