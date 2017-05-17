@@ -1,22 +1,12 @@
-import React from 'react'
-import {
-    Button,
-    Form,
-    FormGroup,
-    FormControl,
-    Col,
-    Nav,
-    NavItem,
-    ControlLabel
-} from 'react-bootstrap'
-import ReactScrollbar from 'react-scrollbar-js';
+import React from "react";
+import {Button, Col, Form, FormControl, Nav} from "react-bootstrap";
+import ReactScrollbar from "react-scrollbar-js";
 import Style from "../styles/login.module.css";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 class ChatComponent extends React.Component {
-    constructor(props)
-    {
+    constructor() {
         super();
-         this.state = {
+        this.state = {
             message: '',
             messages: [],
         };
@@ -25,77 +15,74 @@ class ChatComponent extends React.Component {
         this.handleMessageChange = this.handleMessageChange.bind(this);
         this.handleMessages = this.handleMessages.bind(this);
         this.exit = this.exit.bind(this);
+    }
 
+    componentDidMount() {
+        this.socket = io('http://vps301278.ovh.net:3563/');
+        this.socket.on('message', this.handleMessages);
+        this.socket.on('connect', function () {
+            console.log("socket.io connection open");
+        });
+        //this.socket.emit("join",this.props.chatName);
+        this.socket.emit('create', this.props.chatName);
     }
-    componentDidMount()
-    {
-      this.socket = io('http://vps301278.ovh.net:3563/');
-      this.socket.on('message',   this.handleMessages);
-      this.socket.on('connect', function (m) { console.log("socket.io connection open"); });
-      //this.socket.emit("join",this.props.chatName);
-      this.socket.emit('create', this.props.chatName);
+
+    handleMessages(messages) {
+        this.setState({messages: this.state.messages.concat(messages)})
+        //console.log(this.state.messages);
     }
-    handleMessages(messages)
-    {
-         this.setState({ messages: this.state.messages.concat(messages)})
-         //console.log(this.state.messages);
-    }
-    handleMessageChange(e)
-    {
+
+    handleMessageChange(e) {
         this.setState({message: e.target.value});
     }
-    sendMessage()
-    {
+
+    sendMessage() {
         //alert(this.state.message);
-        this.socket.emit('message', this.props.chatName,this.state.message,);
+        this.socket.emit('message', this.props.chatName, this.state.message,);
     }
-    exit()
-    {
+
+    exit() {
         this.props.loadComponent(2);
     }
 
-    drawMessages()
-    {
-        var listMessages = this.state.messages.map((msg) =>
-            <p>
-                {msg}
-            </p>);
+    drawMessages() {
+        let i = 0;
+        let listMessages = this.state.messages.map((msg) => <p key={i++}>{msg}</p>);
         return (<div>{listMessages}</div>);
     }
+
     render() {
-    const myScrollbar = {
-      width: 500,
-      height: 400,
-    };
+        const myScrollbar = {
+            width: 500,
+            height: 400,
+        };
         return (
             <div>
-                <div>
                 <Col md={3} xs={2}/>
                 <Col md={6} xs={8}>
-                <div className={Style.controlBox}>
+                    <div className={Style.controlBox}>
                         <Nav bsStyle="pills">
-                            
+
                         </Nav>
                         <div className={Style.titleBox}>
                             <p> {this.props.chatName} </p>
                         </div>
-                         <ReactScrollbar style={myScrollbar}>
-                                <div className="should-have-a-children scroll-me">
-                                       {this.drawMessages()}
-                                </div>
+                        <ReactScrollbar style={myScrollbar}>
+                            <div className="should-have-a-children scroll-me">
+                                {this.drawMessages()}
+                            </div>
                         </ReactScrollbar>
-                          <Form inline>
-                                <FormControl type="text" placeholder="" onChange={this.handleMessageChange}/>
-                                {' '}
-                                <Button bsStyle="success" onClick={this.sendMessage}>Send</Button>
-                                <Button bsStyle="success" onClick={this.exit}>Exit</Button>
-                            </Form>
+                        <Form inline>
+                            <FormControl type="text" placeholder="" onChange={this.handleMessageChange}/>
+                            {' '}
+                            <Button bsStyle="success" onClick={this.sendMessage}>Send</Button>
+                            <Button bsStyle="success" onClick={this.exit}>Exit</Button>
+                        </Form>
                         <div className={Style.switchBox}>
                         </div>
                     </div>
                 </Col>
                 <Col md={3} xs={2}/>
-            </div>
             </div>
         )
     }
