@@ -35,9 +35,10 @@ class ChatComponent extends React.Component {
     }
     componentDidMount()
     {
-      this.socket = io('http://vps301278.ovh.net:3563/');
+      this.socket = io(this.props.serverSocketURL);
+      console.log(this.props.serverSocketURL);
       this.socket.on('message',   this.handleMessages);
-      this.socket.on('connect', function (m) { console.log("socket.io connection open"); });
+      this.socket.on('connect', function (m) { console.log("socket.io connection open");});
       //this.socket.emit("join",this.props.chatName);
       this.socket.emit('create', this.props.chatName);
     }
@@ -52,7 +53,7 @@ class ChatComponent extends React.Component {
     }
     sendMessage()
     {
-        //alert(this.state.message);
+        alert(this.state.message);
         this.socket.emit('message', this.props.chatName,this.state.message,);
     }
     exit()
@@ -80,7 +81,7 @@ class ChatComponent extends React.Component {
             )
         } else if (this.state.currMenu == "Invite") {
             choosenMenu = (
-            <InviteComponent chatName = {this.props.chatName} showChat = {this.showChat}></InviteComponent>
+            <InviteComponent chatName = {this.props.chatName} showChat = {this.showChat} serverURL = {this.props.serverURL}></InviteComponent>
             )
         }
         return (

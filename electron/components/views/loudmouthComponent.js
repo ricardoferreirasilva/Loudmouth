@@ -22,7 +22,9 @@ class LoudmouthComponent extends React.Component {
         */
         this.state = {
             chat_name: "",
-            activeComponent : 1,
+            activeComponent: 1,
+            serverURL: "http://localhost:3561/", // https://vps301278.ovh.net:3562/
+            serverSocketURL: "http://localhost:3563/", // 'http://vps301278.ovh.net:3563/
         }
         this.loadComponent = this.loadComponent.bind(this);
         this.loadChat = this.loadChat.bind(this);
@@ -43,10 +45,10 @@ class LoudmouthComponent extends React.Component {
         console.log(this.state.activeComponent);
         switch(this.state.activeComponent)
         {
-            case 1: return (<LoginComponent loadComponent = {this.loadComponent}></LoginComponent>);
-            case 2: return (<ChannelsComponent loadComponent = {this.loadComponent} loadChat = {this.loadChat}></ChannelsComponent>);
-            case 3: return (<ChatComponent loadComponent = {this.loadComponent} chatName = {this.state.chat_name}></ChatComponent>);
-            default: return (<LoginComponent loadComponent = {this.loadComponent}></LoginComponent>);
+            case 1: return (<LoginComponent loadComponent = {this.loadComponent} serverURL = {this.state.serverURL}></LoginComponent>);
+            case 2: return (<ChannelsComponent loadComponent = {this.loadComponent} loadChat = {this.loadChat} serverURL = {this.state.serverURL}></ChannelsComponent>);
+            case 3: return (<ChatComponent loadComponent = {this.loadComponent} chatName = {this.state.chat_name} serverURL = {this.state.serverURL} serverSocketURL = {this.state.serverSocketURL}></ChatComponent>);
+            default: return (<LoginComponent loadComponent = {this.loadComponent} serverURL = {this.state.serverURL}></LoginComponent>);
         }
     }
     render() {

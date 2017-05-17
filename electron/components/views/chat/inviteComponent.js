@@ -13,8 +13,6 @@ import ReactScrollbar from 'react-scrollbar-js';
 import Style from "../../styles/login.module.css";
 import io from 'socket.io-client';
 
-let BASE_URL = "https://vps301278.ovh.net:3562/";
-
 class InviteComponent extends React.Component {
     constructor(props)
     {
@@ -40,7 +38,7 @@ class InviteComponent extends React.Component {
               "email" : this.state.emailOfPerson,
           };
       var request = new XMLHttpRequest();
-      request.open('POST', BASE_URL + 'createInvitation');
+      request.open('POST', this.props.serverURL + 'createInvitation');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {

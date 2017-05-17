@@ -9,9 +9,6 @@ import {
   ListGroupItem
 } from 'react-bootstrap'
 
-//let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
-let BASE_URL = "https://vps301278.ovh.net:3562/";
-
 class InvitationsComponent extends React.Component {
   constructor(props)
   {
@@ -32,7 +29,7 @@ class InvitationsComponent extends React.Component {
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', BASE_URL + 'getInvites');
+      request.open('POST', this.props.serverURL + 'getInvites');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {
@@ -57,7 +54,7 @@ class InvitationsComponent extends React.Component {
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', BASE_URL + 'rejectInvite');
+      request.open('POST', this.props.serverURL + 'rejectInvite');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {
@@ -80,7 +77,7 @@ acceptInvite(event)
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', BASE_URL + 'acceptInvite');
+      request.open('POST', this.props.serverURL + 'acceptInvite');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {

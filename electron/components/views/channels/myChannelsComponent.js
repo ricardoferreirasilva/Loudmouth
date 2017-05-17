@@ -9,8 +9,6 @@ import {
   ListGroupItem
 } from 'react-bootstrap'
 
-//let BASE_URL = "http://localhost:3561/"; // http://vps301278.ovh.net:3561/
-let BASE_URL = "https://vps301278.ovh.net:3562/";
 class elsComponent extends React.Component {
   constructor(props)
   {
@@ -39,7 +37,7 @@ class elsComponent extends React.Component {
               "token": localStorage.getItem("token"),
       };
       var request = new XMLHttpRequest();
-      request.open('POST', BASE_URL + 'getChats');
+      request.open('POST', this.props.serverURL + 'getChats');
       request.setRequestHeader("Content-type", "application/json");
       request.onreadystatechange = () => {
           if (request.readyState !== 4) {
