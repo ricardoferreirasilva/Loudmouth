@@ -94,14 +94,16 @@ acceptInvite(event)
       this.getInvites();
   }
   drawInvites(){
-   
     var listInvites = this.state.invites.map((invite) =>
         <ListGroupItem header={invite.chat_name} key={invite.id}>
             <Button bsStyle="success" value={invite.id} onClick ={this.acceptInvite}>Accept</Button>
             <Button bsStyle="danger" value={invite.id} onClick={this.deleteInvite}>Reject</Button>
             by {invite.user_name}
         </ListGroupItem>);
-    return (<ListGroup>{listInvites}</ListGroup>);
+    if (this.state.invites.length == 0) {
+        return (<p> You dont have any invitations. </p>) 
+    }
+    else return (<ListGroup>{listInvites}</ListGroup>);
  }
   render() {
     return (
