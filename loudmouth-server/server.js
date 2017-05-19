@@ -225,3 +225,53 @@ app.post('/createChannel', function (req, res) {
     });
   });
 });
+
+app.post('/createInvitation', function (req, res) {
+  console.log("create invitation request.");
+
+  var tk = req.body.token;
+  var chatName = req.body.chatName;
+  var emailInvitee = req.body.email;
+  var chatroomID;
+  var inviterID;
+  var inviteeID;
+
+  connection.query('SELECT * from user where token = ?',[tk],
+  function(error, results, fields) {
+    if (!(!error && results.length > 0)) {
+      res.sendStatus(500);
+      throw error;
+    }
+
+    inviterID = results[0].id;
+    connection.query('SELECT * from user where user_name = ?',[emailInvitee],
+    function (error, results, fields) {
+      if (!(!error && results.length > 0)) {
+        res.sendStatus(500);
+        throw error;
+      }
+
+      inviteeID = results[0].id;
+      connection.query('SELECT * FROM chatroom WHERE chat_name = ?', [chatName],
+      function (error, results, fields) {
+          if (!(!error && results.length > 0)) {
+            res.sendStatus(500);
+            throw error;
+          }
+
+          chatroomID = results[0].id;
+          connection.query('INSERT INTO invite (chat_room,inviter,invitee,send_date) VALUES (?,?,?,NOW())', [chatroomID, inviterID, inviteeID],
+          function (error, results, fields) {
+              if (error) {
+                res.sendStatus(500);
+                throw error;
+              }
+
+              res.sendStatus(200);
+              console.log("Invite created.");
+          });
+      });
+    });
+  });
+});
+

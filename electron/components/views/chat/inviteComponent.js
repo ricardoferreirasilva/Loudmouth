@@ -51,7 +51,7 @@ class InviteComponent extends React.Component {
               alert("Channel creation error.");
           }
       };
-      request.send(JSON.stringify(channelData));
+      request.send(JSON.stringify(inviteData));
     }
     render() {
         const myScrollbar = {
