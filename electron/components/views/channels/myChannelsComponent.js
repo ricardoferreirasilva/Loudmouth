@@ -76,6 +76,10 @@ class elsComponent extends React.Component {
     }
 
     drawChats() {
+        if (this.state.chats.length == 0) {
+            return (<p> You are not on any channel. </p>) 
+        }
+
         let listChats = this.state.chats.map((chat) =>
             <ListGroupItem header={chat.chat_name} key={chat.id}>
                 <Button bsStyle="success" value={chat.chat_name} onClick={this.selectChat}>Join</Button>

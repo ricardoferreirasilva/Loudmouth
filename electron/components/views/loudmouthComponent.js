@@ -23,8 +23,8 @@ class LoudmouthComponent extends React.Component {
         this.state = {
             chat_name: "",
             activeComponent: 1,
-            serverURL: "http://localhost:3561/", // https://vps301278.ovh.net:3562/
-            serverSocketURL: "http://localhost:3563/", // 'http://vps301278.ovh.net:3563/
+            serverURL: "https:vps301278.ovh.net:3562/", // http://localhost:3561/
+            serverSocketURL: "http://vps301278.ovh.net:3563/", //"http://localhost:3563/"
         }
         this.loadComponent = this.loadComponent.bind(this);
         this.loadChat = this.loadChat.bind(this);
