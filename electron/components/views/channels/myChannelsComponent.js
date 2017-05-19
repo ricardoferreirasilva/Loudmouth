@@ -52,11 +52,11 @@ class elsComponent extends React.Component {
         };
     }
     leaveChat(event) {
-        console.log("Leaving chat.");
         const data = {
             "token": localStorage.getItem("token"),
             "chatToLeave": event.target.value
         };
+        var chatName = event.target.value;
         let request = new XMLHttpRequest();
         request.open('POST', this.props.serverURL + 'leaveChat');
         request.setRequestHeader("Content-type", "application/json");
@@ -65,9 +65,25 @@ class elsComponent extends React.Component {
                 return;
             }
             if (request.status === 200) {
-                let res = JSON.parse(request.responseText);
-                this.setState({chats: res});
-                console.log(this.state.chats);
+
+                //let res = JSON.parse(request.responseText);
+                //this.setState({chats: res});
+                //console.log(this.state.chats);
+                 console.log("Left chat");
+                 var index;
+                 for(var i=0;i<this.state.chats.length;i++)
+                 {
+                     if(this.state.chats[i].chat_name == chatName)
+                     {
+                        index = i;
+                        break;
+                     }
+                 }
+                 var newChats = [];
+                 newChats = this.state.chats;
+                 newChats.splice(index,1);
+                 console.log(newChats);
+                 this.setState({chats: newChats});
             } else {
                 console.warn('error');
             }

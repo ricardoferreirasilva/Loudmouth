@@ -93,12 +93,10 @@ acceptInvite(event)
   componentDidMount() {
       this.getInvites();
   }
-  drawInvites()
-  {
-    if (this.state.invites.length == 0) {
-      return (<p> You have no invitation. </p>) 
+  drawInvites(){
+    if (this.state.chats.length == 0) {
+        return (<p> You are not on any channel. </p>) 
     }
-
     var listInvites = this.state.invites.map((invite) =>
         <ListGroupItem header={invite.chat_name} key={invite.id}>
             <Button bsStyle="success" value={invite.id} onClick ={this.acceptInvite}>Accept</Button>

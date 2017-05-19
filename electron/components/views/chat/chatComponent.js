@@ -39,8 +39,8 @@ class ChatComponent extends React.Component {
       console.log(this.props.serverSocketURL);
       this.socket.on('message',   this.handleMessages);
       this.socket.on('connect', function (m) { console.log("socket.io connection open");});
-      //this.socket.emit("join",this.props.chatName);
-      this.socket.emit('create', this.props.chatName);
+      var token = localStorage.getItem("token");
+      this.socket.emit('join', this.props.chatName,token);
     }
     handleMessages(messages)
     {
@@ -53,8 +53,9 @@ class ChatComponent extends React.Component {
     }
     sendMessage()
     {
-        alert(this.state.message);
-        this.socket.emit('message', this.props.chatName,this.state.message,);
+        //alert(this.state.message);
+        var username = localStorage.getItem("token");
+        this.socket.emit('message', this.props.chatName,this.state.message,username);
     }
     exit()
     {
