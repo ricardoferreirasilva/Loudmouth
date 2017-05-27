@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 app.listen(3561, function () {
     console.log('Loudmouth: 3561');
 });
-app.use(tokenChecker);
 function tokenChecker(req, res, next) {
     if(req.url == "/login" || req.url == "/register") next();
     else
@@ -95,7 +94,6 @@ app.post('/login', function (req, res) {
     });
 });
 app.post('/getInvites', function (req, res) {
-    console.log("get invites request.");
     var tk = req.body.token;
     var inviteeID;
     connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields)
@@ -154,32 +152,25 @@ app.post('/acceptInvite', function (req, res) {
     });
 });
 app.post('/getChats', function (req, res) {
-  console.log("get chats request.");
-  var tk = req.body.token;
-  connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields)
-  {
-        if (!error && results.length > 0){
-              var userID = results[0].id;
-              console.log(userID);
-              var query = connection.query('SELECT chatroom.chat_name,chatroom.id FROM userchat,chatroom WHERE userchat.user = ? AND userchat.chat_room = chatroom.id', [userID], function (error, results, fields) {
-              if (error){
-                  res.sendStatus(500);
-                  throw error;
-              }
-              else {
-                  res.send(results);
-                  console.log(results);
-              }
-            });
-        }
-        else console.log('Error while performing Query.');
-  });
+    var tk = req.body.token;
+    connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields)
+    {
+          if (!error && results.length > 0){
+                var userID = results[0].id;
+                console.log(userID);
+                var query = connection.query('SELECT chatroom.chat_name,chatroom.id FROM userchat,chatroom WHERE userchat.user = ? AND userchat.chat_room = chatroom.id', [userID], function (error, results, fields) {
+                if (error){
+                    res.sendStatus(500);
+                    throw error;
+                }
+                else {
+                    res.send(results);
+                }
+              });
+          }
+          else console.log('Error while performing Query.');
+    });
 });
-
-app.post('/leaveChat', function (req, res) {
-    //TODO: funcao que sai do chat.
-});
-
 app.post('/createChannel', function (req, res) {
   console.log("create channel request.");
 
@@ -225,7 +216,6 @@ app.post('/createChannel', function (req, res) {
     });
   });
 });
-
 app.post('/createInvitation', function (req, res) {
   console.log("create invitation request.");
 
@@ -274,4 +264,39 @@ app.post('/createInvitation', function (req, res) {
     });
   });
 });
-
+app.post('/leaveChat', function (req, res) {
+    var tk = req.body.token;
+    var chatname = req.body.chatToLeave;
+    connection.query('SELECT * from user where token = ?',[tk],function(error, results, fields) {
+        if (error || results.length == 0) {
+            res.sendStatus(500);
+            throw error;
+        }
+        else
+        {
+            userID = results[0].id;
+            connection.query('SELECT * from chatroom where chat_name = ?',[chatname],function (error, results, fields) {
+            if (error || results.length == 0) {
+                res.sendStatus(500);
+                throw error;
+            }
+            else
+            {
+                var chatID = results[0].id;
+                connection.query('DELETE FROM userchat WHERE user = ? AND chat_room = ?',[userID,chatID],function(error, results, fields) {
+                    if(error)
+                    {
+                        res.sendStatus(500);
+                        throw error;
+                    }
+                    else
+                    {
+                        res.send("Leaved");
+                        console.log("User unsubscribed a chat.");
+                    }
+                });
+            }
+            });       
+        }
+    });
+});

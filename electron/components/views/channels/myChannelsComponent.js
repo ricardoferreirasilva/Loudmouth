@@ -99,7 +99,6 @@ class elsComponent extends React.Component {
         let listChats = this.state.chats.map((chat) =>
             <ListGroupItem header={chat.chat_name} key={chat.id}>
                 <Button bsStyle="success" value={chat.chat_name} onClick={this.selectChat}>Join</Button>
-                <Button bsStyle="success" value={chat.chat_name} onClick={this.inviteToChat}>Invite</Button>
                 <Button bsStyle="success" value={chat.chat_name} onClick={this.leaveChat}>Leave</Button>
             </ListGroupItem>);
         return (<ListGroup>{listChats}</ListGroup>);
