@@ -103,6 +103,7 @@ public class Chat {
 
                     if (jsonObject.containsKey("success")) {
                         sendMsgInfoLbl.setText("");
+                        msgTextFld.setText("");
                         setMessages(false);
                     }
 
