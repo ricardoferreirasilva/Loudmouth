@@ -1,5 +1,5 @@
 
-# LoudMouth
+# LoudMouth v1
 
 ## Electron
 ### React - a javascript  library for building user interfaces
@@ -35,3 +35,21 @@ npm start
 npm install - install all the packages required.
 
 npm start - launches express server, the objective is to have a REST API to interact with the mysql database.
+
+# LoudMouth v2
+
+## Prerequisites
+
+* [IntelliJ](https://www.jetbrains.com/idea/) - The IDE used
+
+## Run it
+
+Open the v2/ folder in IntelliJ.
+
+### Client side
+
+In the intelliJ, go to the src/client/gui/MainWindow.java file and press the green button next to the beginning of the class definition.
+
+### Server side
+
+In the intelliJ, go to the src/server/Server.java file and press the green button next to the beginning of the class definition.
