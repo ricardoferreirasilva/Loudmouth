@@ -10,7 +10,7 @@ import java.util.Base64;
 
 public class HttpClient {
 
-    private final String base_url = "http://vps301278.ovh.net:8000";
+    private final String base_url = "http://localhost:8000";
 
     public static void main(String[] args) throws Exception {
         HttpClient httpClient = new HttpClient();
