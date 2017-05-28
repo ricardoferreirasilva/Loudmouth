@@ -40,16 +40,22 @@ npm start - launches express server, the objective is to have a REST API to inte
 
 ## Prerequisites
 
-* [IntelliJ](https://www.jetbrains.com/idea/) - The IDE used
+* (Optional) [IntelliJ](https://www.jetbrains.com/idea/) - The IDE used
 
 ## Run it
 
-Open the v2/ folder in IntelliJ.
+Open the /v2 folder in IntelliJ.
 
 ### Client side
 
 In the intelliJ, go to the src/client/gui/MainWindow.java file and press the green button next to the beginning of the class definition.
 
+In terminal: ```java -jar ./jar_files/loudmouthClientV2.jar <server_host>```, where server_host is ```http://localhost:8000``` by default.
+
 ### Server side
 
-In the intelliJ, go to the src/server/Server.java file and press the green button next to the beginning of the class definition.
+In the intelliJ: go to the src/server/Server.java file and press the green button next to the beginning of the class definition.
+
+In terminal: ```java -jar ./jar_files/loudmouthServerV2.jar```
+
+**Note**: All commands assume that the current directory is /v2.
