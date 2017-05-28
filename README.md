@@ -48,7 +48,7 @@ Open the /v2 folder in IntelliJ.
 
 ### Client side
 
-In the intelliJ, go to the src/client/gui/MainWindow.java file and press the green button next to the beginning of the class definition.
+In the intelliJ: go to the src/client/gui/MainWindow.java file and press the green button next to the beginning of the class definition.
 
 In terminal: ```java -jar ./jar_files/loudmouthClientV2.jar <server_host>```, where server_host is ```http://localhost:8000``` by default.
 
