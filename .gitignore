@@ -7,6 +7,8 @@ npm-debug.log
 coverage/
 release/
 dist/
+v2/out
+
 # IDEA files
 #############
 .idea
