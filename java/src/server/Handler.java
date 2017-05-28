@@ -1,10 +1,8 @@
 package server;
 
 import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -67,15 +65,14 @@ public class Handler implements HttpHandler {
 
     private void handleLogin(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String username = params.get("username");
         String password = params.get("password");
 
         JSONObject obj = new JSONObject();
         if (server.userExist(username, password)) {
             obj.put("success", "Login successfully.");
-        }
-        else {
+        } else {
             obj.put("error", "Username or password are wrong.");
         }
         String jsonText = jsonToString(obj);
@@ -85,15 +82,14 @@ public class Handler implements HttpHandler {
 
     private void handleRegister(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String username = params.get("username");
         String password = params.get("password");
 
         JSONObject obj = new JSONObject();
         if (server.userExist(username)) {
             obj.put("error", "Username " + username + " already exists.");
-        }
-        else {
+        } else {
             server.insertUser(username, password);
             obj.put("success", "User registered successfully.");
         }
@@ -103,15 +99,14 @@ public class Handler implements HttpHandler {
 
     private void handleCreateChat(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String chatName = params.get("chatName");
         String creator = params.get("creator");
         JSONObject obj = new JSONObject();
 
         if (server.chatExist(chatName)) {
             obj.put("error", "Chat " + chatName + " already exists.");
-        }
-        else {
+        } else {
             server.insertChat(chatName);
             server.addUserToChat(creator, chatName);
             obj.put("success", "Chat created successfully.");
@@ -121,27 +116,26 @@ public class Handler implements HttpHandler {
     }
 
     private void handleGetMyChats(HttpExchange httpExchange) throws IOException {
-        Map<String,String> params = queryToMap(httpExchange.getRequestURI().getQuery());
+        Map<String, String> params = queryToMap(httpExchange.getRequestURI().getQuery());
         String username = params.get("username");
         JSONObject obj = new JSONObject();
         JSONArray array = new JSONArray();
         ArrayList<String> myChats = server.getUserChats(username);
 
-        for (String chat: myChats)
-            array.add(chat);
+        array.addAll(myChats);
         obj.put("chats", array);
         String jsonText = jsonToString(obj);
         writeResponse(httpExchange, jsonText);
     }
 
     private void handleGetInvites(HttpExchange httpExchange) throws IOException {
-        Map<String,String> params = queryToMap(httpExchange.getRequestURI().getQuery());
+        Map<String, String> params = queryToMap(httpExchange.getRequestURI().getQuery());
         String username = params.get("username");
         JSONObject obj = new JSONObject();
         JSONArray array = new JSONArray();
         ArrayList<String> invitations = server.getUserInvitations(username);
 
-        for (String invitation: invitations)
+        for (String invitation : invitations)
             array.add(invitation);
         obj.put("invitations", array);
         String jsonText = jsonToString(obj);
@@ -150,7 +144,7 @@ public class Handler implements HttpHandler {
 
     private void handleInvitation(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String chatName = params.get("chatName");
         String invitee = params.get("invitee");
         JSONObject obj = new JSONObject();
@@ -159,15 +153,12 @@ public class Handler implements HttpHandler {
 
         if (!server.userExist(invitee)) {
             obj.put("error", "The user " + invitee + " does not exist.");
-        }
-        else if (chats.contains(chatName)) {
+        } else if (chats.contains(chatName)) {
             obj.put("error", "The user " + invitee + " already is on chat.");
-        }
-        else if (!invitations.contains(chatName)) {
+        } else if (!invitations.contains(chatName)) {
             server.insertInvitation(chatName, invitee);
             obj.put("success", "Invitation created successfully.");
-        }
-        else if (invitations.contains(chatName)) {
+        } else if (invitations.contains(chatName)) {
             obj.put("error", "The user " + invitee + " already was invited.");
         }
 
@@ -177,7 +168,7 @@ public class Handler implements HttpHandler {
 
     private void handleAcceptInvite(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String chatName = params.get("chatName");
         String invitee = params.get("invitee");
         JSONObject obj = new JSONObject();
@@ -191,7 +182,7 @@ public class Handler implements HttpHandler {
 
     private void handleDeclineInvite(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String chatName = params.get("chatName");
         String invitee = params.get("invitee");
         JSONObject obj = new JSONObject();
@@ -205,7 +196,7 @@ public class Handler implements HttpHandler {
 
     private void handleLeaveChat(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String chatName = params.get("chatName");
         String username = params.get("username");
         JSONObject obj = new JSONObject();
@@ -218,12 +209,12 @@ public class Handler implements HttpHandler {
     }
 
     private void handleGetMessages(HttpExchange httpExchange) throws IOException {
-        Map<String,String> params = queryToMap(httpExchange.getRequestURI().getQuery());
+        Map<String, String> params = queryToMap(httpExchange.getRequestURI().getQuery());
         String chatName = params.get("chatName");
         JSONArray jsonArray = new JSONArray();
 
         ArrayList<ArrayList<String>> messages = server.getChatMessages(chatName);
-        for (ArrayList<String> msg: messages) {
+        for (ArrayList<String> msg : messages) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("author", msg.get(0));
             jsonObject.put("msg", msg.get(1));
@@ -237,7 +228,7 @@ public class Handler implements HttpHandler {
 
     private void handleAddMessage(HttpExchange httpExchange) throws IOException {
         String query = getQueryOfPostRequest(httpExchange);
-        Map<String,String> params = queryToMap(query);
+        Map<String, String> params = queryToMap(query);
         String chatName = params.get("chatName");
         String author = params.get("author");
         String msg = params.get("msg");
@@ -275,7 +266,7 @@ public class Handler implements HttpHandler {
 
     private void handleGet(HttpExchange httpExchange) throws IOException {
         StringBuilder response = new StringBuilder();
-        Map<String,String> parms = queryToMap(httpExchange.getRequestURI().getQuery());
+        Map<String, String> parms = queryToMap(httpExchange.getRequestURI().getQuery());
 
         JSONObject obj = new JSONObject();
         obj.put("hello", parms.get("hello"));
@@ -294,7 +285,7 @@ public class Handler implements HttpHandler {
         String qry = getQueryOfPostRequest(httpExchange);
         System.out.println(qry);
 
-        Map <String,String>parms = queryToMap(qry);
+        Map<String, String> parms = queryToMap(qry);
 
         JSONObject obj = new JSONObject();
         obj.put("hello", httpExchange.getPrincipal().getUsername());
@@ -331,17 +322,18 @@ public class Handler implements HttpHandler {
     }
 
     /**
-     * returns the url parameters in a map
-     * @param query
+     * Returns the url parameters in a map.
+     *
+     * @param query Message received
      * @return map
      */
-    private static Map<String, String> queryToMap(String query){
+    private static Map<String, String> queryToMap(String query) {
         Map<String, String> result = new HashMap<>();
         for (String param : query.split("&")) {
             String pair[] = param.split("=");
-            if (pair.length>1) {
+            if (pair.length > 1) {
                 result.put(pair[0], pair[1]);
-            }else{
+            } else {
                 result.put(pair[0], "");
             }
         }

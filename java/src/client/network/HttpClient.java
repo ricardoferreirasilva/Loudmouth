@@ -1,9 +1,5 @@
 package client.network;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,12 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
-import java.util.Iterator;
-import java.util.Set;
 
 public class HttpClient {
 
-    private final String base_url = "http://localhost:8000";
+    private final String base_url = "http://vps301278.ovh.net:8000";
 
     public static void main(String[] args) throws Exception {
         HttpClient httpClient = new HttpClient();
@@ -55,7 +49,7 @@ public class HttpClient {
         return readResponse(con);
     }
 
-    public  String sendPostBasicAuthentication(String path, String urlParameters, String username, String password) throws Exception {
+    public String sendPostBasicAuthentication(String path, String urlParameters, String username, String password) throws Exception {
         String url = base_url + path;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -74,7 +68,7 @@ public class HttpClient {
         return readResponse(con);
     }
 
-    public  String sendGetBasicAuthentication(String path, String urlParameters, String username, String password) throws Exception {
+    public String sendGetBasicAuthentication(String path, String urlParameters, String username, String password) throws Exception {
         String url = base_url + path + "?" + urlParameters;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -92,10 +86,7 @@ public class HttpClient {
 
     private String getAuthorizationStringEncoded(String username, String password) {
         byte[] authBytes = (username + ":" + password).getBytes();
-        StringBuilder authBuilder = new StringBuilder()
-                .append("Basic ")
-                .append(new String(Base64.getEncoder().encode(authBytes)));
-        return authBuilder.toString();
+        return "Basic " + new String(Base64.getEncoder().encode(authBytes));
     }
 
     private void setPostParameters(HttpURLConnection con, String postParameters) throws IOException {

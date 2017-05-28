@@ -6,9 +6,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,86 +30,78 @@ public class Chat {
     public Chat(MainWindow parent, HttpClient httpClient) {
         this.parent = parent;
         this.httpClient = httpClient;
-        titleLbl.setFont (titleLbl.getFont ().deriveFont (32.0f));
-        chatNameLbl.setFont (chatNameLbl.getFont ().deriveFont (16.0f));
-        inviteSubTitleLbl.setFont (inviteSubTitleLbl.getFont ().deriveFont (16.0f));
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parent.showLayout("chats");
-                stopPolling();
+        titleLbl.setFont(titleLbl.getFont().deriveFont(32.0f));
+        chatNameLbl.setFont(chatNameLbl.getFont().deriveFont(16.0f));
+        inviteSubTitleLbl.setFont(inviteSubTitleLbl.getFont().deriveFont(16.0f));
+
+        exitButton.addActionListener(e -> {
+            parent.showLayout("chats");
+            stopPolling();
+        });
+
+        inviteButton.addActionListener(e -> {
+            String invitee = inviteeTextFld.getText();
+            String chatName = chatNameLbl.getText();
+            String username = parent.getUsername();
+            String password = parent.getPassword();
+            String urlParameters = "chatName=" + chatName + "&invitee=" + invitee;
+
+            if (invitee.equals("")) {
+                invitationInfoLbl.setText("Invitee name cannot be empty!");
+                return;
+            } else if (invitee.contains(" ") || invitee.contains("&") || invitee.contains("=")) {
+                invitationInfoLbl.setText("Invitee name is invalid.");
+                return;
+            }
+
+            try {
+                String response = httpClient.sendPostBasicAuthentication("/invitation", urlParameters, username, password);
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) parser.parse(response);
+
+                if (jsonObject.containsKey("success")) {
+                    String msg = (String) jsonObject.get("success");
+                    invitationInfoLbl.setText(msg);
+                } else if (jsonObject.containsKey("error")) {
+                    String msg = (String) jsonObject.get("error");
+                    invitationInfoLbl.setText(msg);
+                }
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
-        inviteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String invitee = inviteeTextFld.getText();
-                String chatName = chatNameLbl.getText();
-                String username = parent.getUsername();
-                String password = parent.getPassword();
-                String urlParameters = "chatName=" + chatName + "&invitee=" + invitee;
 
-                if (invitee.equals("")) {
-                    invitationInfoLbl.setText("Invitee name cannot be empty!");
-                    return;
+        sendMessageButton.addActionListener(e -> {
+            String msg = msgTextFld.getText();
+            String chatName = chatNameLbl.getText();
+            String date = getCurrentDate();
+            String username = parent.getUsername();
+            String password = parent.getPassword();
+            String urlParameters = "chatName=" + chatName + "&author=" + username + "&msg=" + msg + "&date=" + date;
+
+            if (msg.equals("")) {
+                sendMsgInfoLbl.setText("Message cannot be empty!");
+                return;
+            }
+
+            try {
+                String response = httpClient.sendPostBasicAuthentication("/addMessage", urlParameters, username, password);
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) parser.parse(response);
+
+                if (jsonObject.containsKey("success")) {
+                    sendMsgInfoLbl.setText("");
+                    msgTextFld.setText("");
+                    setMessages(false);
                 }
-                else if (invitee.contains(" ") || invitee.contains("&") || invitee.contains("=")) {
-                    invitationInfoLbl.setText("Invitee name is invalid.");
-                    return;
-                }
-
-                try {
-                    String response = httpClient.sendPostBasicAuthentication("/invitation", urlParameters, username, password);
-                    JSONParser parser = new JSONParser();
-                    JSONObject jsonObject = (JSONObject) parser.parse(response);
-
-                    if (jsonObject.containsKey("success")) {
-                        String msg = (String) jsonObject.get("success");
-                        invitationInfoLbl.setText(msg);
-                    }
-                    else if (jsonObject.containsKey("error")) {
-                        String msg = (String) jsonObject.get("error");
-                        invitationInfoLbl.setText(msg);
-                    }
-
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
-        sendMessageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String msg = msgTextFld.getText();
-                String chatName = chatNameLbl.getText();
-                String date = getCurrentDate();
-                String username = parent.getUsername();
-                String password = parent.getPassword();
-                String urlParameters = "chatName=" + chatName + "&author=" + username + "&msg=" + msg + "&date=" + date;
 
-                if (msg.equals("")) {
-                    sendMsgInfoLbl.setText("Message cannot be empty!");
-                    return;
-                }
-
-
-                try {
-                    String response = httpClient.sendPostBasicAuthentication("/addMessage", urlParameters, username, password);
-                    JSONParser parser = new JSONParser();
-                    JSONObject jsonObject = (JSONObject) parser.parse(response);
-
-                    if (jsonObject.containsKey("success")) {
-                        sendMsgInfoLbl.setText("");
-                        msgTextFld.setText("");
-                        setMessages(false);
-                    }
-
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-
-            }
-        });
+        msgTextFld.addActionListener(sendMessageButton.getActionListeners()[0]);
+        inviteeTextFld.addActionListener(inviteButton.getActionListeners()[0]);
     }
 
     void setMessages(boolean firstTime) {
@@ -154,14 +143,15 @@ public class Chat {
         this.chatNameLbl.setText(chatName);
     }
 
-    void setVisible(boolean b){
+    void setVisible(boolean b) {
         this.panel.setVisible(b);
     }
 
-    JPanel getPanel() {return this.panel;}
+    JPanel getPanel() {
+        return this.panel;
+    }
 
     public class GetMessagesPolling implements Runnable {
-
         @Override
         public void run() {
             while (pollingActive) {

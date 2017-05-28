@@ -1,11 +1,13 @@
 package server;
 
+import com.sun.net.httpserver.BasicAuthenticator;
+import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpServer;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.sun.net.httpserver.*;
 
 public class Server {
 
@@ -23,10 +25,10 @@ public class Server {
 
     private Server() throws IOException, ClassNotFoundException {
         initDB();
-        
+
         HttpServer httpServer = HttpServer.create(new InetSocketAddress(8000), 0);
         Handler handler = new Handler(this);
-        
+
         System.out.println("Server started on port: 8000");
         httpServer.createContext("/login", handler);
         httpServer.createContext("/register", handler);
@@ -45,9 +47,7 @@ public class Server {
         BasicAuthenticator bscAuth = new BasicAuthenticator("user_password") {
             @Override
             public boolean checkCredentials(String user, String pwd) {
-                if (userExist(user) && userExist(user, pwd))
-                    return true;
-                return false;
+                return userExist(user) && userExist(user, pwd);
             }
         };
         hcCreateChat.setAuthenticator(bscAuth);
@@ -66,9 +66,8 @@ public class Server {
 
     private void initDB() throws ClassNotFoundException, IOException {
         dbDir = new File(Utils.DB_DIR_NAME);
-        if (!dbDir.exists()) {
-            dbDir.mkdir();
-        }
+        if (dbDir.mkdir())
+            System.out.println("dbDir created.");
 
         dbFile = new File(dbDir, Utils.DB_FILE_NAME);
         if (dbFile.exists()) {
@@ -81,7 +80,7 @@ public class Server {
         }
     }
 
-    public void recordsDatabaseToFile() throws IOException {
+    void recordsDatabaseToFile() throws IOException {
         FileOutputStream fout = new FileOutputStream(dbFile);
         ObjectOutputStream oos = new ObjectOutputStream(fout);
         oos.writeObject(user_password);
@@ -142,8 +141,7 @@ public class Server {
         if (chats.contains(chatName)) {
             chats.remove(chatName);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -164,8 +162,6 @@ public class Server {
             userInvitations.remove(chatName);
             addUserToChat(username, chatName);
         }
-        else {
-        }
     }
 
     boolean declineInvitation(String username, String chatName) {
@@ -173,8 +169,7 @@ public class Server {
         if (userInvitations.contains(chatName)) {
             userInvitations.remove(chatName);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -186,8 +181,7 @@ public class Server {
                 return false;
             currInv.add(value);
             return true;
-        }
-        else {
+        } else {
             hashMap.put(key, new ArrayList<>());
             ArrayList<String> currChats = hashMap.get(key);
             currChats.add(value);

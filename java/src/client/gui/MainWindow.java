@@ -28,6 +28,8 @@ public class MainWindow extends JFrame {
             try {
                 MainWindow frame = new MainWindow(httpClient);
                 frame.setVisible(true);
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -37,10 +39,10 @@ public class MainWindow extends JFrame {
     /**
      * Create the frame.
      */
-    public MainWindow(HttpClient httpClient) {
+    private MainWindow(HttpClient httpClient) {
         this.httpClient = httpClient;
         setTitle("loudmouth");
-        setSize(600,600);
+        setSize(600, 600);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,12 +76,11 @@ public class MainWindow extends JFrame {
         showLayout("login");
     }
 
-    void showLayout(String layout){
+    void showLayout(String layout) {
         if (layout.equals("chats")) {
             chats.setMyChats();
             chats.setInvites();
-        }
-        else if (layout.equals("chat")) {
+        } else if (layout.equals("chat")) {
             chat.setMessages(true);
             chat.startPolling();
         }
@@ -107,9 +108,13 @@ public class MainWindow extends JFrame {
         return chat;
     }
 
-    Login getLogin() {return login;}
+    Login getLogin() {
+        return login;
+    }
 
-    Register getRegister() {return register;}
+    Register getRegister() {
+        return register;
+    }
 
     String enconde(String ori) {
         try {

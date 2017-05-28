@@ -6,18 +6,23 @@
       <xy x="20" y="20" width="599" height="400"/>
     </constraints>
     <properties>
-      <background color="-1513260"/>
+      <background color="-1515584"/>
       <preferredSize width="46" height="44"/>
     </properties>
     <border type="none"/>
     <children>
       <component id="4ac1d" class="javax.swing.JLabel" binding="titleLbl">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="6" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="20"/>
+          </grid>
         </constraints>
         <properties>
-          <foreground color="-15358008"/>
-          <text value="loudmouth"/>
+          <font name="Fira Code" size="18"/>
+          <foreground color="-16777216"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
+          <text value="Loudmouth"/>
         </properties>
       </component>
       <component id="44095" class="javax.swing.JLabel" binding="myChatsTitleLbl">
@@ -25,7 +30,8 @@
           <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <foreground color="-16774968"/>
+          <font name="Fira Code" size="15"/>
+          <foreground color="-16777216"/>
           <text value="My chats"/>
         </properties>
       </component>
@@ -41,27 +47,38 @@
       </hspacer>
       <component id="90a09" class="javax.swing.JComboBox" binding="myChatsComboBox">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
+          <font name="Fira Code"/>
           <model/>
         </properties>
       </component>
       <component id="e2af2" class="javax.swing.JButton" binding="enterButton" default-binding="true">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
-          <background color="-15358008"/>
+          <background color="-11557041"/>
+          <font name="Fira Code"/>
+          <foreground color="-394759"/>
           <text value="Enter"/>
         </properties>
       </component>
       <component id="6b7a3" class="javax.swing.JButton" binding="leaveButton" default-binding="true">
         <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
-          <background color="-15358008"/>
+          <background color="-13410104"/>
+          <font name="Fira Code"/>
+          <foreground color="-394759"/>
           <text value="Leave"/>
         </properties>
       </component>
@@ -70,50 +87,68 @@
           <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <foreground color="-16774968"/>
+          <font name="Fira Code" size="15"/>
+          <foreground color="-16777216"/>
           <text value="Invitations"/>
         </properties>
       </component>
       <component id="78df0" class="javax.swing.JButton" binding="acceptButton" default-binding="true">
         <constraints>
-          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
-          <background color="-15358008"/>
+          <background color="-11557041"/>
+          <font name="Fira Code"/>
+          <foreground color="-394759"/>
           <text value="Accept"/>
         </properties>
       </component>
       <component id="5b1e6" class="javax.swing.JButton" binding="declineButton" default-binding="true">
         <constraints>
-          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
-          <background color="-15358008"/>
+          <background color="-13410104"/>
+          <font name="Fira Code"/>
+          <foreground color="-394759"/>
           <text value="Decline"/>
         </properties>
       </component>
       <component id="d72bc" class="javax.swing.JComboBox" binding="invitationsComboBox">
         <constraints>
-          <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
+          <font name="Fira Code"/>
           <model/>
         </properties>
       </component>
       <component id="d050e" class="javax.swing.JTextField" binding="chatNameTxtFld">
         <constraints>
           <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="170" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <font name="Fira Code"/>
+        </properties>
       </component>
       <component id="60564" class="javax.swing.JButton" binding="createButton" default-binding="true">
         <constraints>
-          <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
-          <background color="-15358008"/>
+          <background color="-11557041"/>
+          <font name="Fira Code"/>
+          <foreground color="-394759"/>
           <text value="Create"/>
         </properties>
       </component>
@@ -122,15 +157,20 @@
           <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="Fira Code" size="13"/>
           <text value="Chat name"/>
         </properties>
       </component>
       <component id="9d0b1" class="javax.swing.JButton" binding="logOutButton" default-binding="true">
         <constraints>
-          <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
-          <background color="-15358008"/>
+          <background color="-11557041"/>
+          <font name="Fira Code"/>
+          <foreground color="-394759"/>
           <text value="Log out"/>
         </properties>
       </component>
@@ -148,7 +188,8 @@
           <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <foreground color="-16774968"/>
+          <font name="Fira Code" size="15"/>
+          <foreground color="-16777216"/>
           <text value="Create Chat"/>
         </properties>
       </component>

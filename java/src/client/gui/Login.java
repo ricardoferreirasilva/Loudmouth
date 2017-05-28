@@ -5,8 +5,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Login {
     private MainWindow parent;
@@ -23,57 +21,49 @@ public class Login {
         this.parent = parent;
         this.httpClient = httpClient;
 
-        notRegisteredPressHereButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parent.showLayout("register");
+        notRegisteredPressHereButton.addActionListener(e -> parent.showLayout("register"));
+
+        loginButton.addActionListener(e -> {
+            String username = usernameTextField.getText();
+            String password = passwordPasswordField.getText();
+
+            if (username.equals("")) {
+                errorLbl.setText("username cannot be empty!");
+                return;
+            } else if (username.contains(" ") || username.contains("&") || username.contains("=")) {
+                errorLbl.setText("username is invalid.");
+                return;
             }
-        });
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = usernameTextField.getText();
-                String password = passwordPasswordField.getText();
 
-                if (username.equals("")) {
-                    errorLbl.setText("username cannot be empty!");
-                    return;
+            errorLbl.setText("");
+            String urlParameters = "username=" + username + "&password=" + password;
+            try {
+                String response = httpClient.sendPost("/login", urlParameters);
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) parser.parse(response);
+
+                if (jsonObject.containsKey("success")) {
+                    String msg = (String) jsonObject.get("success");
+                    errorLbl.setText(msg);
+                    parent.setUsername(username);
+                    parent.setPassword(password);
+                    parent.showLayout("chats");
+                } else if (jsonObject.containsKey("error")) {
+                    String msg = (String) jsonObject.get("error");
+                    errorLbl.setText(msg);
                 }
-                else if (username.contains(" ") || username.contains("&") || username.contains("=")) {
-                    errorLbl.setText("username is invalid.");
-                    return;
-                }
 
-                errorLbl.setText("");
-                String urlParameters = "username=" + username + "&password=" + password;
-                try {
-                    String response = httpClient.sendPost("/login", urlParameters);
-                    JSONParser parser = new JSONParser();
-                    JSONObject jsonObject = (JSONObject) parser.parse(response);
-
-                    if (jsonObject.containsKey("success")) {
-                        String msg = (String) jsonObject.get("success");
-                        errorLbl.setText(msg);
-                        parent.setUsername(username);
-                        parent.setPassword(password);
-                        parent.showLayout("chats");
-                    }
-                    else if (jsonObject.containsKey("error")) {
-                        String msg = (String) jsonObject.get("error");
-                        errorLbl.setText(msg);
-                    }
-
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
 
-        titleLbl.setFont (titleLbl.getFont ().deriveFont (32.0f));
+        titleLbl.setFont(titleLbl.getFont().deriveFont(32.0f));
 
+        passwordPasswordField.addActionListener(loginButton.getActionListeners()[0]);
     }
 
-    void setVisible(boolean b){
+    void setVisible(boolean b) {
         this.panel.setVisible(b);
     }
 
@@ -86,5 +76,4 @@ public class Login {
         passwordPasswordField.setText("");
         errorLbl.setText("");
     }
-
 }
